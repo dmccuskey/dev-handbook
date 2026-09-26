@@ -115,7 +115,7 @@ An ADR records an important technical decision about how the system works, and w
 - **Link, don't repeat.** Each fact lives in one place. Other pages link to its section.
 - **Relative links** between docs, with section anchors, so they work on GitHub and in a clone.
 - **Show real output** for logs and commands, trimmed and made generic.
-- **Screenshots** show just the app: a tight crop, no device frame or window chrome. To show something that changes, put two side by side (e.g. running and finished). Check them for identifying details before committing.
+- **Screenshots** show just the app: a tight crop, no device frame or window chrome. To show something that changes, put two side by side (e.g. running and finished). Check them for identifying details before committing. Example apps get one each, shown next to their description in the examples README (e.g. `examples/screenshots/<app>.png`), so a reader can see what each example does before opening it.
 - **Performance numbers** are published as a baseline for a version, with the setup they were measured on, before improving them; improvements are then shown as before/after against that baseline.
 
 ## Keeping Docs Current
