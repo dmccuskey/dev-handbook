@@ -8,6 +8,7 @@ It is written for people first. Agents read the same files through [AGENTS.md](A
 
 - [Documentation Guidelines](guidelines/documentation.md): the README as a Quick Start, the documentation home, kinds of pages, decision records, and writing style
 - [Git Workflow](guidelines/git-workflow.md): a branch per change, commit messages, planned work, and public repositories
+- [Agent Workflow](guidelines/agent-workflow.md): the plan file, one task per session with a checkpoint before clearing, and emergency mode for large cleanups
 - [Templates](templates/): starting points for a [project README](templates/project-README.md), a [documentation home](templates/docs-README.md), and an [ADR](templates/adr.md)
 - [AGENTS.md](AGENTS.md): the index for coding agents
 
