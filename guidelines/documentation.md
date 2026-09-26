@@ -51,7 +51,7 @@ Keep out of the README: project structure, architecture, development history, te
 
 ### The Quick Start
 
-- **State the goal and the time.** "This gets one account filtering with one rule in about 15 minutes, on a Mac or Linux."
+- **State the time, then the goal**, in two short sentences: first how long it takes and on what platform, then what the reader will have at the end. "The following steps will get you up and running in about 15 minutes on a Mac or Linux. You will have one account filtering with one rule." Don't pack both into one sentence because it can become confusing to read.
 - **State the prerequisites** in one line, with a command to check each (`python3 --version`).
 - **Cover the main path only.** Pick the most common platform. Other platforms get one sentence pointing to the installation page.
 - **Numbered steps**, each small enough to finish and check before the next. Each step ends with something the reader can see working: a command's output, a file created, a log line.
