@@ -90,7 +90,7 @@ The page ends with the **Project Structure** tree, with a short comment on each 
 
 ## Decision Records (`docs/decisions/`)
 
-An ADR records a decision about how the system works, and why, when the reason would not be obvious from the code.
+An ADR records an important technical decision about how the system works, and why, when the reason would not be obvious from the code. Not every decision needs one: smaller choices are explained in the commit message.
 
 - **Name:** `NNN-short-slug.md`, numbered in order and never renumbered.
 - **Title:** `# ADR NNN: <Decision>`.
@@ -101,9 +101,9 @@ An ADR records a decision about how the system works, and why, when the reason w
 
 ## Planned Work and Ideas
 
-- **Decided work** goes in labeled GitHub issues. The docs link to the issues list; they don't keep their own roadmap or TODO list.
+- **Decided work** goes in the workspace's `PLAN.md` while the project is under active work, and in detailed GitHub issues as it winds down (see [Planned Work](git-workflow.md#planned-work)). The docs link to the issues; they don't keep their own roadmap or TODO list.
 - **Undecided ideas** go under "Possible Future Changes" in `development.md`, which says plainly that each needs discussion and a concrete use case before it is worked on.
-- When an idea is decided, it moves out of the doc and into an issue.
+- When an idea is decided, it moves out of the doc and into the plan or an issue.
 
 ## Writing Style
 
@@ -120,7 +120,7 @@ An ADR records a decision about how the system works, and why, when the reason w
 
 ## Keeping Docs Current
 
-- A change that affects behavior updates the docs on the same branch, in the same pull request.
+- A change that affects behavior updates the docs on the same branch.
 - Documentation-only changes go on their own `docs/<name>` branch, with a `docs:` commit message.
 - When adding a doc, add it to the documentation home and, if a user needs it, to the README's Documentation list.
 - Bundled third-party code is described in `vendor/README.md`: source, version, license, and the steps to update it.

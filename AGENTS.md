@@ -7,8 +7,8 @@ This file is an index. Read a guideline when the task calls for it, not up front
 ## Always
 
 - Work on a branch named for the change (`feat/`, `fix/`, `docs/`), created from an up-to-date `main`, never directly on `main`. See [guidelines/git-workflow.md](guidelines/git-workflow.md).
-- Commit, merge, and push only when asked.
-- Keep the state of the work in the workspace's `PLAN.md` and GitHub issues, never only in the conversation, so the session can be cleared at any time. See [guidelines/agent-workflow.md](guidelines/agent-workflow.md).
+- Leave changes uncommitted for me to review. Commit, merge, and push only when asked; pull requests only sparingly.
+- Keep the state of the work in the workspace's `PLAN.md`, never only in the conversation, so the session can be cleared at any time. See [guidelines/agent-workflow.md](guidelines/agent-workflow.md).
 - Keep identifying details (real addresses, hostnames, account names, personal paths) out of anything committed to a public repository.
 
 ## When the Task Calls for It
