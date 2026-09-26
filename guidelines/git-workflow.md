@@ -23,18 +23,22 @@ docs/<name>    documentation only
 Workflow:
 
 1. Branch from an up-to-date `main`: `git switch main && git pull && git switch -c feat/<name>`.
-2. Commit on the branch as often as useful. Small commits are preferred.
-3. Before merging, run the tests, plus any other checks the project's `docs/development.md` requires for this kind of change. Documentation-only changes need no tests.
-4. Merge into `main` with a GitHub pull request or `git merge`, push, and delete the branch.
+2. Make the change and run the tests, plus any other checks the project's `docs/development.md` requires for this kind of change. Documentation-only changes need no tests.
+3. Leave the change **uncommitted** for me to review: uncommitted changes are easy to read in the editor's source-control view, committed ones are not. Commit once I've approved it; one commit per branch is normal.
+4. Merge into `main` with `git merge --no-ff`, so the branch stays visible as one merge in the history, push, and delete the branch. Pushing always waits for my go-ahead.
 5. If something runs from `main`, update it.
 
 A branch holds one change. Unrelated changes go on separate branches, even when they are small, so each can be tested, merged, and reverted on its own.
 
-### Pull Request or Direct Merge
+### Pull Requests, Sparingly
 
-Process is worth its cost only where it adds something. Use a pull request when the change deserves a look before it lands: code, documentation, decisions, anything a reviewer could question. Merge directly with `git merge` when the change is mechanical and was already checked where it came from, such as a rebuild that only brings in generated or vendored copies of code reviewed in its own repository. Tests and pre-merge checks still apply either way, and so does asking before a push.
+I work alone, so process is worth its cost only where it adds something. The review happens before the commit (step 3), so most changes are merged directly. Open a pull request only for:
 
-The same goes for issues: open one for work that needs tracking beyond the current session, not for every small step.
+- a large or risky code change, worth reading as a whole on GitHub;
+- a decision I want to think over before it lands;
+- anything I ask to have as a pull request.
+
+Tests and pre-merge checks apply either way, and so does asking before a push.
 
 ## Commit Messages
 
@@ -49,10 +53,19 @@ characters.
 - `<type>` matches the branch prefix: `feat`, `fix`, `docs`, `test`, `refactor`, `config`.
 - The subject says what the change does, not which files it touches: `docs: add a Quick Start, installation page, and docs home`.
 - The body is optional for a change that explains itself.
+- A branch that finishes a GitHub issue says so in the commit (`Closes #12`).
 
 ## Planned Work
 
-Decided work is tracked as labeled GitHub issues. Ideas that are not decided go under "Possible Future Changes" in the project's `docs/development.md` (see [Documentation Guidelines](documentation.md#planned-work-and-ideas)). A branch that finishes an issue references it in the pull request or commit (`Closes #12`).
+While a project is under active work, decided work goes in the workspace's `PLAN.md` (see [Agent Workflow](agent-workflow.md#the-plan-file)): at the start there are many small tasks, and a plan file is much quicker to keep than issues.
+
+As the work winds down and what's left is future work rather than next steps, move it out of the plan into GitHub issues, so it's still findable when the project is picked up again:
+
+- **One issue per piece of work,** detailed enough to start from cold: `### Goal` (what it should do), `### Why` (the problem or use case), then the details, a checklist where it helps.
+- **Labels** for the kind (`enhancement`, `documentation`, `testing`, an area of the project) and `priority: low|medium|high`.
+- The project's docs link to the issues where relevant.
+
+Also open an issue at any time for something others should see, such as a bug users may run into. Ideas that are not decided go under "Possible Future Changes" in the project's `docs/development.md` (see [Documentation Guidelines](documentation.md#planned-work-and-ideas)).
 
 ## Public Repositories
 
