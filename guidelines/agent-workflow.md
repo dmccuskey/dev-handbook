@@ -31,18 +31,33 @@ Things blocked on someone or something, and on what.
 ## Normal Flow
 
 1. **Start:** read the agent instructions and `PLAN.md`. Take the task under "Now", or the top of "Next".
-2. **Work:** on a branch, per the [git workflow](git-workflow.md). Test.
+2. **Work:** on a branch, per the [git workflow](git-workflow.md). Test. [Save as you go](#save-as-you-go).
 3. **Update the docs** the change affects: the repository's docs and changelog, the agent instructions for anything learned about the workspace, and new issues or plan entries for anything found but not done.
-4. **Checkpoint:** commit, and merge or open a pull request. Rewrite "Now" to the next task. Nothing should exist only in the conversation.
-5. **`/clear`** and start the next session at step 1.
+4. **Checkpoint:** commit, and merge or open a pull request. Rewrite "Now" to the next task. Check the conversation for anything not yet saved. Nothing should exist only in the conversation.
+5. **Say so:** the agent tells me that everything is saved and `/clear` is safe, and reminds me how to start the next session: "let's continue with PLAN.md".
+6. **`/clear`** and start the next session at step 1.
 
 One task per session. If a task turns out bigger than expected, stop at a checkpoint and split the rest into plan entries or issues.
+
+## Save As You Go
+
+Write things down when they come up, not at the end, so a checkpoint only has to confirm nothing is left:
+
+| What | Where |
+|---|---|
+| A decision I make, with its reasons and the options rejected | an ADR in the repository's `docs/decisions/` (see [Decision Records](documentation.md#decision-records-docsdecisions)), or a plan entry to write one |
+| A preference about how I like things done | the relevant dev-handbook guideline |
+| A gotcha about the workspace: tools, builds, quirks, commands that work | the agent instructions (`CLAUDE.md` or `AGENTS.md`) |
+| A bug or improvement found but not fixed | a GitHub issue, a plan entry, or "Possible Future Changes" |
+| A useful script written along the way | the workspace (e.g. a `tools/` or `scripts/` folder), noted in the agent instructions |
+
+Anything written to a temporary scratch folder is lost with the session: move what's worth keeping.
 
 ## Emergency Mode
 
 Sometimes a project is in bad shape: years out of date, broken builds, many problems that depend on each other. Fixing one thing at a time with a cleared session in between would mean rediscovering the same context over and over, so one longer session is fine:
 
 - **Declare it:** say that this session is a cleanup, and start the plan file right away.
-- **Keep writing things down as you go.** The plan file and agent instructions grow during the session, so the session could still be cleared if it had to be.
+- **Keep writing things down as you go** ([save as you go](#save-as-you-go) applies even more). The plan file and agent instructions grow during the session, so the session could still be cleared if it had to be.
 - **Still one branch per change,** tested, merged in dependency order.
 - **Exit** once every remaining problem can be described in a plan entry or an issue and done in a session of its own. Then checkpoint, trim the plan file to "Now / Next / Waiting", and `/clear`. From then on, normal flow.

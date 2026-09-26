@@ -60,6 +60,8 @@ Keep out of the README: project structure, architecture, development history, te
 - **Mention, don't teach.** When a step depends on something outside the project (app passwords, virtual environments, a scheduler), name it and list what to search for. Only explain it if the reader can't continue without it.
 - **End each step with a "Going further" line** that links to the more robust or advanced way: `**Going further:** keep the password out of the file with [password_env](docs/configuration.md#password_env)`.
 - **End with how to update.**
+- **Don't assume what isn't there yet.** A reader may start from an empty folder: "copy these into the root of your project folder", not "next to `main.lua`" when `main.lua` is created in a later step.
+- **Follow it as written before publishing:** from a clean start, copying the steps and code exactly, on the platform it names.
 - **Remove hurdles in the code, not the docs.** If a step needs a long explanation (editing source to enable a dry run, installing a dependency that fails on common systems), that is often a sign to change the software. File an issue and write the Quick Start after it is fixed.
 
 ## The Documentation Home (`docs/README.md`)
@@ -113,6 +115,8 @@ An ADR records a decision about how the system works, and why, when the reason w
 - **Link, don't repeat.** Each fact lives in one place. Other pages link to its section.
 - **Relative links** between docs, with section anchors, so they work on GitHub and in a clone.
 - **Show real output** for logs and commands, trimmed and made generic.
+- **Screenshots** show just the app: a tight crop, no device frame or window chrome. To show something that changes, put two side by side (e.g. running and finished). Check them for identifying details before committing.
+- **Performance numbers** are published as a baseline for a version, with the setup they were measured on, before improving them; improvements are then shown as before/after against that baseline.
 
 ## Keeping Docs Current
 
