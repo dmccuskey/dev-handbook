@@ -30,6 +30,12 @@ Workflow:
 
 A branch holds one change. Unrelated changes go on separate branches, even when they are small, so each can be tested, merged, and reverted on its own.
 
+### Pull Request or Direct Merge
+
+Process is worth its cost only where it adds something. Use a pull request when the change deserves a look before it lands: code, documentation, decisions, anything a reviewer could question. Merge directly with `git merge` when the change is mechanical and was already checked where it came from, such as a rebuild that only brings in generated or vendored copies of code reviewed in its own repository. Tests and pre-merge checks still apply either way, and so does asking before a push.
+
+The same goes for issues: open one for work that needs tracking beyond the current session, not for every small step.
+
 ## Commit Messages
 
 ```text
