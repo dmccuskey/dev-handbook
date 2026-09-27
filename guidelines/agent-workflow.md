@@ -35,7 +35,7 @@ Things blocked on someone or something, and on what.
 3. **Update the docs** the change affects: the repository's docs and changelog, the agent instructions for anything learned about the workspace, and plan entries for anything found but not done.
 4. **Review:** the agent leaves the change uncommitted and lists what changed, repository by repository; I review it in the editor.
 5. **Checkpoint:** once I approve, commit, merge, and push (see the [git workflow](git-workflow.md)). Rewrite "Now" to the next task. Check the conversation for anything not yet saved. Nothing should exist only in the conversation.
-6. **Say so:** the agent tells me that everything is saved and `/clear` is safe, and reminds me how to start the next session: "let's continue with PLAN.md".
+6. **Say so:** the agent tells me that everything is saved and `/clear` is safe, names the task the next session would take from the plan file (the "Now" task, or the top of "Next") in a line or two, and reminds me how to start it: "let's continue with PLAN.md". Seeing the next task first gives me the chance to reorder the plan before starting it.
 7. **`/clear`** and start the next session at step 1.
 
 ### When to Clear
