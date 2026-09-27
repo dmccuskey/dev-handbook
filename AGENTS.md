@@ -17,6 +17,6 @@ This file is an index. Read a guideline when the task calls for it, not up front
 |---|---|
 | Writing, restructuring, or reviewing documentation: README, `docs/`, ADRs | [guidelines/documentation.md](guidelines/documentation.md) |
 | Branching, committing, merging, or tracking planned work | [guidelines/git-workflow.md](guidelines/git-workflow.md) |
-| Starting or ending a session, planning work, or a large cleanup | [guidelines/agent-workflow.md](guidelines/agent-workflow.md) |
+| Starting or ending a session, moving a task to its next phase, planning work, or a large cleanup | [guidelines/agent-workflow.md](guidelines/agent-workflow.md) |
 | Setting up a new workspace: its `CLAUDE.md`, `NEXT.md` and `PLAN.md` | [guidelines/agent-workflow.md](guidelines/agent-workflow.md#setting-up-a-workspace), [templates/](templates/) |
-| Starting a README, a documentation home, an ADR, or a workspace's `CLAUDE.md`, `NEXT.md` and `PLAN.md` | [templates/](templates/) |
+| Starting a README, a documentation home, an ADR, a workspace's `CLAUDE.md`, `NEXT.md` and `PLAN.md`, or a sprint note | [templates/](templates/) |
