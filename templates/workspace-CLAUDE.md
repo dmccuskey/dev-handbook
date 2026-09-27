@@ -29,6 +29,7 @@ The dev-handbook guidelines apply as written, except:
 
 - Build: `<command>`, from `<folder>`.
 - Test: `<command>`. <What a passing run looks like.>
+- Verify: <how the Verify phase checks a change here, e.g. `npm test` and the page in a browser.>
 
 ## Helper Scripts
 

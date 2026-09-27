@@ -17,8 +17,9 @@ Each workspace keeps the state of the work in two files at its root (the reposit
 # Next
 
 ## Now
-The task in progress: what it is, where it stands (repository, branch,
-uncommitted or committed), what is done and what is left, the next step.
+The task in progress and its status block: the phase, where it stands
+(repository, branch, uncommitted or committed), what is done and what is
+left, decisions, the next step (see "The Status Block" below).
 
 ## Then
 The next few tasks (about five), most important first, a few lines each,
@@ -55,6 +56,7 @@ A workspace is the folder where agent sessions start: usually a folder that hold
 | `CLAUDE.md` (or `AGENTS.md`) | lasting knowledge: what the workspace is, its layout, how to build and test, gotchas, and where it differs from this handbook | [workspace-CLAUDE.md](../templates/workspace-CLAUDE.md) |
 | `NEXT.md` | the task in progress and the next few, read at the start of every session | [workspace-NEXT.md](../templates/workspace-NEXT.md) |
 | `PLAN.md` | the backlog: the goal, later tasks, what is waiting | [workspace-PLAN.md](../templates/workspace-PLAN.md) |
+| `sprints/` | a [sprint note](#sprint-notes) for each task with a Research phase, read on demand; created with the first one | [workspace-sprint.md](../templates/workspace-sprint.md) |
 
 1. **Pick the root.** Prefer a **workspace folder** around the repository, `~/development/<name>/<repo>/`. It is a private place for what doesn't belong in the repository:
    - tools that aren't the project's own: built runtimes, virtual environments, pinned command-line tools (often machine-specific and not relocatable)
@@ -82,9 +84,10 @@ A workspace is the folder where agent sessions start: usually a folder that hold
      !/PLAN.md
      !/notes/
      !/scripts/
+     !/sprints/
      ```
 
-6. **Start** the first session with "let's continue with NEXT.md", then follow the [normal flow](#normal-flow).
+6. **Start** the first session with "let's continue with NEXT.md", then follow the [normal flow](#normal-flow): Start, Research, Perform, Verify, Finalize.
 
 ### Design Documents and Roadmaps
 
@@ -102,23 +105,72 @@ While the design is still changing, it can stay where it is: the workspace's `CL
 
 ## Normal Flow
 
-1. **Start:** read the agent instructions and `NEXT.md`. Take the task under "Now", or the top of "Then".
-2. **Work:** on a branch, per the [git workflow](git-workflow.md). Test. [Save as you go](#save-as-you-go).
-3. **Update the docs** the change affects: the repository's docs and changelog, the agent instructions for anything learned about the workspace, and plan entries for anything found but not done.
-4. **Review:** the agent leaves the change uncommitted and lists what changed, repository by repository; I review it in the editor.
-5. **Checkpoint:** once I approve, commit, merge, and push (see the [git workflow](git-workflow.md)). Update the plan files: the finished task leaves `NEXT.md`, the next one becomes "Now", and "Then" is refilled from `PLAN.md`. Check the conversation for anything not yet saved. Commit the workspace repository, if the workspace folder is one. Nothing should exist only in the conversation. In Claude Code, [`/allthethings`](../skills/allthethings/SKILL.md) does this step and the next.
-6. **Say so:** the agent tells me that everything is saved and `/clear` is safe, names the task the next session would take (the new "Now" in `NEXT.md`) in a line or two, and reminds me how to start it: "let's continue with NEXT.md". Seeing the next task first gives me the chance to reorder the plan before starting it.
-7. **`/clear`** and start the next session at step 1.
+Every task goes through five phases. Each phase ends with a **handoff**: what the next phase needs is written down, so the session can be cleared there without losing anything.
+
+| Phase | What happens | Handoff |
+|---|---|---|
+| **Start** | Read the agent instructions and `NEXT.md`. Take the task under "Now", or the top of "Then". Create the branch, per the [git workflow](git-workflow.md). | The status block names the task, the branch and the phase. |
+| **Research** | Explore the code, reproduce the problem, try fixes in a scratch copy. | Findings, with their evidence, in the task's [sprint note](#sprint-notes); the chosen approach and its assumptions; bugs found but not fixed as plan entries or Known Issues. |
+| **Perform** | Write the code and the docs. Update every doc the change affects: the repository's docs and changelog, the agent instructions for anything learned about the workspace, plan entries for anything found but not done. | Uncommitted changes; Done and Left in the status block. |
+| **Verify** | Check the change the way the project checks things: tests, the Quick Start, the examples. The workspace's agent instructions say how. | The results in the sprint note and the status block. |
+| **Finalize** | I review the change; the agent checkpoints and says so (below). | Commits, the plan files updated, the next task named. |
+
+In coding work, Perform and Verify alternate in small loops (change, test, change again) until the change works; a clear point between them is rare. A small task runs through the phases in one go, without a sprint note.
+
+**Finalize** in detail:
+
+1. **Review:** the agent leaves the change uncommitted and lists what changed, repository by repository; I review it in the editor.
+2. **Checkpoint:** once I approve, commit, merge, and push (see the [git workflow](git-workflow.md)). Update the plan files: the finished task leaves `NEXT.md`, the next one becomes "Now", and "Then" is refilled from `PLAN.md`. Mark the sprint note done. Check the conversation for anything not yet saved. Commit the workspace repository, if the workspace folder is one. Nothing should exist only in the conversation. In Claude Code, [`/allthethings`](../skills/allthethings/SKILL.md) does this step and the next.
+3. **Say so:** the agent tells me that everything is saved and `/clear` is safe, names the task the next session would take (the new "Now" in `NEXT.md`) in a line or two, and reminds me how to start it: "let's continue with NEXT.md". Seeing the next task first gives me the chance to reorder the plan before starting it.
+4. **`/clear`** and start the next session at Start.
+
+### The Status Block
+
+The task in progress keeps its status under "Now" in `NEXT.md`, updated at the end of each phase, so that "let's continue with NEXT.md" resumes in the right phase:
+
+```markdown
+## Now
+
+**<Task name>**: <what it is, in a sentence or two.>
+
+- Phase: <Start, Research, Perform, Verify or Finalize>
+- Where: <repository, branch; uncommitted or committed>
+- Done: <what is finished so far>
+- Left: <what remains>
+- Decisions: <choices made along the way that the rest depends on>
+- Next step: <the first thing the next session does>
+- Sprint note: [sprints/<file>.md](sprints/<file>.md)
+```
+
+It stays a summary; the evidence goes in the sprint note.
 
 ### When to Clear
 
-Keeping the docs ready for a restart is not optional; clearing is. Weigh the cost of a longer conversation against the cost of rebuilding context after a `/clear`:
+Keeping the docs ready for a restart is not optional; clearing is. The phase handoffs are the natural **clear points**:
 
-- **Keep going** when the task grew but the rest is a few more rounds on the same topic, or when the next step needs what is already in the conversation (a test run just read, a diff just discussed).
+- **After Research:** the main one. Research reads a lot and keeps little; Perform needs only the findings and the approach.
+- **After Perform, or before the review:** optional, when the conversation has grown large.
+- **After Finalize:** always; the next task starts fresh.
+
+Between them, weigh the cost of a longer conversation against the cost of rebuilding context after a `/clear`:
+
+- **Keep going** when the task grew but the rest is a few more rounds on the same topic, or when the next step needs what is already in the conversation (a test run just read, a diff just discussed). Small tasks skip the clear points.
 - **Clear** when switching to a different task, when the conversation has grown long (many rounds, large file reads or command output), or when the next step would start mostly fresh anyway.
 - **Split** a task into plan entries only when the rest is a separate piece of work, not just because it took longer than expected.
 
-The agent may suggest a `/clear` at a natural checkpoint, with the reason, but it's my call.
+Before suggesting a clear, the agent checks that the handoff is complete: the status block is current, the sprint note has what the next phase needs, and nothing exists only in the conversation. It suggests the clear with the reason; it's my call, and I run `/clear` (or `/compact <what to keep>` to keep a summary).
+
+### Sprint Notes
+
+A task with a Research phase gets a **sprint note**: one file in the workspace's `sprints/` folder, named `<yyyy-mm-dd-hhmm>-<task>.md`, started from [the template](../templates/workspace-sprint.md). It holds what doesn't fit in the status block: the evidence behind the approach, and what was tried.
+
+- **One section per phase,** added to at each handoff, never rewritten; the frontmatter (`project`, `phase`, `status`, `branch`, `repos`) says where the task stands.
+- **Research records evidence, not only conclusions:** `file:line` locations, the commands that reproduce the problem and their output (trimmed), the approaches considered and why they were rejected, and the **assumptions** the chosen approach rests on.
+- **Perform and Verify record failed attempts** and why they failed, so they aren't tried again, and the test results.
+- **When a fix fails,** reload the sprint note instead of researching again, and recheck its assumptions first: a failed fix usually means one of them was wrong.
+- **Read on demand only,** never at session start; the status block links to it. At the checkpoint its status becomes `done`, and it stays as the record of how the work was done.
+
+Sprint notes are plain Markdown with Markdown links (not wikilinks), so they read in any editor, and the workspace folder can be opened as an [Obsidian](https://obsidian.md) vault.
 
 ## Save As You Go
 
