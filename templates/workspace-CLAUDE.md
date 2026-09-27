@@ -3,12 +3,12 @@
 <!--
 Save as CLAUDE.md (or AGENTS.md) at the workspace root: the repository root,
 or the folder that holds several repositories. Lasting knowledge only; the
-state of the work goes in PLAN.md. Keep it short: it is loaded into every
+state of the work goes in NEXT.md and PLAN.md. Keep it short: it is loaded into every
 session. Leave out sections with nothing to say yet.
 See guidelines/agent-workflow.md, "Setting Up a Workspace".
 -->
 
-<What this workspace is, in one or two sentences.> What to work on: [PLAN.md](PLAN.md), per the dev-handbook's agent workflow.
+<What this workspace is, in one or two sentences.> What to work on: [NEXT.md](NEXT.md) (the backlog: [PLAN.md](PLAN.md)), per the dev-handbook's agent workflow.
 
 ## Layout
 

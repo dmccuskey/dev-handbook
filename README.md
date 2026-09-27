@@ -8,9 +8,9 @@ It is written for people first. Agents read the same files through [AGENTS.md](A
 
 - [Documentation Guidelines](guidelines/documentation.md): the README as a Quick Start, the documentation home, kinds of pages, decision records, and writing style
 - [Git Workflow](guidelines/git-workflow.md): a branch per change, commit messages, planned work, and public repositories
-- [Agent Workflow](guidelines/agent-workflow.md): the plan file, setting up a workspace, one task per session with a checkpoint before clearing, and emergency mode for large cleanups
-- [Templates](templates/): starting points for a [project README](templates/project-README.md), a [documentation home](templates/docs-README.md), an [ADR](templates/adr.md), and a workspace's [agent instructions](templates/workspace-CLAUDE.md) and [plan file](templates/workspace-PLAN.md)
-- [Skills](skills/): Claude Code skills: [`/init-workspace`](skills/init-workspace/SKILL.md) proposes and sets up a new workspace; [`/allthethings`](skills/allthethings/SKILL.md) runs the checkpoint (commit, merge, push, update the plan) after I've reviewed a change
+- [Agent Workflow](guidelines/agent-workflow.md): the plan files (`NEXT.md` for the current task, `PLAN.md` for the backlog), setting up a workspace, one task per session with a checkpoint before clearing, and emergency mode for large cleanups
+- [Templates](templates/): starting points for a [project README](templates/project-README.md), a [documentation home](templates/docs-README.md), an [ADR](templates/adr.md), and a workspace's [agent instructions](templates/workspace-CLAUDE.md) and plan files ([NEXT.md](templates/workspace-NEXT.md), [PLAN.md](templates/workspace-PLAN.md))
+- [Skills](skills/): Claude Code skills: [`/init-workspace`](skills/init-workspace/SKILL.md) proposes and sets up a new workspace; [`/allthethings`](skills/allthethings/SKILL.md) runs the checkpoint (commit, merge, push, update the plan files) after I've reviewed a change
 - [AGENTS.md](AGENTS.md): the index for coding agents
 
 ## Setup

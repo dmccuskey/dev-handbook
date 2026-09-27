@@ -57,7 +57,7 @@ characters.
 
 ## Planned Work
 
-While a project is under active work, decided work goes in the workspace's `PLAN.md` (see [Agent Workflow](agent-workflow.md#the-plan-file)): at the start there are many small tasks, and a plan file is much quicker to keep than issues.
+While a project is under active work, decided work goes in the workspace's plan files (`NEXT.md` and `PLAN.md`) (see [Agent Workflow](agent-workflow.md#the-plan-files)): at the start there are many small tasks, and plan files are much quicker to keep than issues.
 
 As the work winds down and what's left is future work rather than next steps, move it out of the plan into GitHub issues, so it's still findable when the project is picked up again:
 
