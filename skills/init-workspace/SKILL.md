@@ -28,7 +28,7 @@ Change nothing in this phase: read and run read-only commands only.
    - **Layout:** the folders to create (`notes/`, `scripts/`, `tools/`) only where there's a use for them now, and anything to move. Moving or renaming a checkout, or turning extra clones into worktrees, is listed as its own item: it needs the user's explicit OK.
    - **`CLAUDE.md`:** an outline, the template's sections filled with what was found (layout, build and test commands, differences from the handbook such as the default branch). Leave out sections with nothing to say.
    - **`PLAN.md`:** the goal if there is one, and the first "Now" entry.
-   - **Version control** for the two files: committed in the repository (public: nothing identifying in them, or `PLAN.md` in `.gitignore`), or the workspace folder as a private repository with the handbook's `.gitignore`. A private GitHub remote is a separate question for the user.
+   - **Version control** for the two files: committed in the repository (public: nothing identifying in them, or `PLAN.md` in `.gitignore`), or the workspace folder as a private repository with the handbook's `.gitignore`, local only: no remote (it's for undoing a bad edit; the machine's backup covers the disk).
    - **Design documents:** where each part goes, per the handbook's "Design Documents and Roadmaps" (architecture, ADRs, milestones and issues, `PLAN.md`), and when: linked from `CLAUDE.md` while it is still changing, or moved into the repository as the first task in `PLAN.md`.
    - **Anything existing** that would change: an existing `CLAUDE.md` or `AGENTS.md` is extended, not replaced.
 5. **Stop** and ask the user to approve or discuss. Don't start Phase 2 on your own.

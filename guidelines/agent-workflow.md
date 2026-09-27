@@ -26,6 +26,7 @@ Things blocked on someone or something, and on what.
 - **Decided work** goes in the plan file while the project is under active work. As it winds down, the remaining future work moves into detailed GitHub issues (see [Planned Work](git-workflow.md#planned-work)); the plan links to an issue instead of repeating it.
 - **Undecided ideas** go under "Possible Future Changes" in the repository's `docs/development.md` (see [Planned Work and Ideas](documentation.md#planned-work-and-ideas)).
 - **Finished work leaves the plan.** Its record is the commits and changelogs, not the plan file.
+- **Only state, kept short.** Every session reads the plan file, so every line costs tokens each time. Procedures that repeat for each item (a checklist per repository), long bug lists, and research detail go in linked notes (e.g. `notes/`), with a line saying when to read them.
 - **Lasting knowledge** about the workspace, such as its layout, tools, build steps and gotchas, goes in the agent instructions (`CLAUDE.md` or `AGENTS.md`), not the plan.
 
 ## Setting Up a Workspace
@@ -52,7 +53,7 @@ A workspace is the folder where agent sessions start: usually a folder that hold
 4. **Write the plan file** from the template, with the first task under "Now".
 5. **Put both under version control,** so a bad edit can be undone and a lost disk doesn't lose them:
    - *The repository as the workspace:* commit them with the code. If the repository is public, keep identifying details out of both (see [Public Repositories](git-workflow.md#public-repositories)), or list `PLAN.md` in `.gitignore` if it holds notes that shouldn't be published.
-   - *A workspace folder:* make the folder itself a small **private** repository that tracks only its own files and ignores the checkouts and installed tools. Its instructions describe the local layout, so it stays private:
+   - *A workspace folder:* make the folder itself a small **private** repository that tracks only its own files and ignores the checkouts and installed tools. Its instructions describe the local layout, so it stays **local, with no remote**: it's for undoing a bad edit and reviewing how the files changed, and the machine's backup covers a lost disk:
 
      ```gitignore
      # track only the workspace's own files, not the checkouts
@@ -86,7 +87,7 @@ While the design is still changing, it can stay where it is: the workspace's `CL
 2. **Work:** on a branch, per the [git workflow](git-workflow.md). Test. [Save as you go](#save-as-you-go).
 3. **Update the docs** the change affects: the repository's docs and changelog, the agent instructions for anything learned about the workspace, and plan entries for anything found but not done.
 4. **Review:** the agent leaves the change uncommitted and lists what changed, repository by repository; I review it in the editor.
-5. **Checkpoint:** once I approve, commit, merge, and push (see the [git workflow](git-workflow.md)). Rewrite "Now" to the next task. Check the conversation for anything not yet saved. Nothing should exist only in the conversation.
+5. **Checkpoint:** once I approve, commit, merge, and push (see the [git workflow](git-workflow.md)). Rewrite "Now" to the next task. Check the conversation for anything not yet saved. Commit the workspace repository, if the workspace folder is one. Nothing should exist only in the conversation. In Claude Code, [`/allthethings`](../skills/allthethings/SKILL.md) does this step and the next.
 6. **Say so:** the agent tells me that everything is saved and `/clear` is safe, names the task the next session would take from the plan file (the "Now" task, or the top of "Next") in a line or two, and reminds me how to start it: "let's continue with PLAN.md". Seeing the next task first gives me the chance to reorder the plan before starting it.
 7. **`/clear`** and start the next session at step 1.
 
