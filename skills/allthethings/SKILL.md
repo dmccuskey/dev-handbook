@@ -30,4 +30,4 @@ Do these for every repo with changes from this session. A change can span severa
 8. **Report** repo by repo: the commits (short hash and subject), the merge, and whether the push succeeded, and the workspace commit. Then:
    - say that everything is saved and `/clear` is safe;
    - name the task the next session would take (the new "Now" in `PLAN.md`) in a line or two, so the user can reorder the plan before starting it;
-   - tell the user to start the next session with "let's continue with PLAN.md" (in an older workspace with `NEXT.md`: "let's continue with NEXT.md").
+   - tell the user to start the next session with `/next` (or "let's continue with PLAN.md"; in an older workspace with `NEXT.md`, "let's continue with NEXT.md").
