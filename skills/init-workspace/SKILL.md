@@ -43,7 +43,7 @@ Only after the user approves, and as approved:
 1. Create the workspace folder and move the checkout into it, if approved. Moving the folder the session runs in breaks the session: in that case, do the other steps first, give the user the exact commands (`mkdir`, `mv`) to run themselves, and tell them to start the next session in the new root.
 2. Create the approved folders, and `CLAUDE.md`, `PLAN.md` and the first task file from the templates, filled in: no leftover placeholders or template comments. Write in the handbook's documentation style.
 3. Set up version control for them as approved. For a workspace folder: `git init`, the handbook's `.gitignore` (adjusted for the approved folders), and check with `git status --short` that only the workspace's own files are tracked. Leave the files uncommitted for the user to review, per the handbook. Create no GitHub repository and push nothing unless the user asked for it.
-4. Report what was created, folder by folder, then tell the user to review it, and to start the next session with "let's continue with PLAN.md".
+4. Report what was created, folder by folder, then tell the user to review it, and to start the next session with `/next` (or "let's continue with PLAN.md").
 
 ## Updating a Workspace
 
@@ -53,7 +53,7 @@ Bring an existing workspace up to the current layout. Same two phases: **propose
 2. **Check each change** in `CHANGES.md` with its "Has it" test, newest first, until one passes. The ones above it are pending. If none are pending, say so and stop.
 3. **Propose** the pending updates, oldest first, in the conversation, made concrete for this workspace, following each change's "Update" steps: what moves where; the task files to create (one line per task, and what goes in each); the new `PLAN.md` outline; notes that absorb non-task sections of the old plan; scripts whose paths need checking, and why; the new `.gitignore`; the `CLAUDE.md` lines that change; memory entries that mention the old layout. Ask about anything unclear (e.g. whether a long note belongs to a task). **Stop** for approval.
 4. **Apply** as approved: `git mv` in a workspace repository, so history follows the files. Then run the change's checks: `git status --short`, every relative link resolves, the scripts' paths.
-5. **Report** folder by folder, leave it uncommitted for the user's review, and name how to start the next session ("let's continue with PLAN.md").
+5. **Report** folder by folder, leave it uncommitted for the user's review, and name how to start the next session (`/next`, or "let's continue with PLAN.md").
 
 ## Rules
 

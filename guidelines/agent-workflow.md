@@ -88,7 +88,7 @@ A workspace is the folder where agent sessions start: usually a folder that hold
 
 | File | Holds | Template |
 |---|---|---|
-| `CLAUDE.md` (or `AGENTS.md`) | lasting knowledge: what the workspace is, its layout, how to build and test, gotchas, and where it differs from this handbook | [workspace-CLAUDE.md](../templates/workspace-CLAUDE.md) |
+| `CLAUDE.md` (or `AGENTS.md`) | lasting knowledge: what the workspace is, its layout, how to build and test, gotchas, and where it differs from this handbook. Loaded into every session, so it stays an index: the details go in `agent/notes/`, linked with when to read them | [workspace-CLAUDE.md](../templates/workspace-CLAUDE.md) |
 | `PLAN.md` | the index: the goal, "Now" and "Then", every other task by link, what is waiting | [workspace-PLAN.md](../templates/workspace-PLAN.md) |
 | `agent/tasks/` | a [task file](#task-files) for each task | [workspace-task.md](../templates/workspace-task.md) |
 | `agent/sprints/` | a [sprint note](#sprint-notes) for each round of work that needs one, read on demand; created with the first one | [workspace-sprint.md](../templates/workspace-sprint.md) |
@@ -108,7 +108,7 @@ The folder is `agent/`, not `.agent/`: a hidden folder is hidden in Finder and s
 
    The repository alone is enough for a small project whose tools come from its own package manager and that has no local notes: then the workspace root is the repository root.
 2. **Always start sessions there.** Claude Code reads `CLAUDE.md` from the folder a session starts in and its parents, and keeps its memory per starting folder: a session started in a subfolder misses both.
-3. **Write the agent instructions** from the template. Keep them short and factual; a workspace's instructions win where they disagree with this handbook, so list the differences (such as a default branch other than `main`) there. Running Claude Code's `/init` gives a first draft to trim.
+3. **Write the agent instructions** from the template. Keep them short and factual: what every session needs (layout, working rules, the build and test commands, gotchas that fail silently) stays in them, and anything needed only for some tasks (a build system in depth, test setups, helper scripts) goes in a note in `agent/notes/`, linked from a "Notes" table that says when to read it; a workspace's instructions win where they disagree with this handbook, so list the differences (such as a default branch other than `main`) there. Running Claude Code's `/init` gives a first draft to trim.
 4. **Write the plan** from the templates: `PLAN.md` with the goal and the tasks, and a task file for the first task, linked under "Now".
 5. **Put them under version control,** so a bad edit can be undone and a lost disk doesn't lose them:
    - *The repository as the workspace:* commit them with the code. If the repository is public, keep identifying details out of them (see [Public Repositories](git-workflow.md#public-repositories)), or list `PLAN.md` and `agent/` in `.gitignore` if they hold notes that shouldn't be published.
@@ -123,7 +123,7 @@ The folder is `agent/`, not `.agent/`: a hidden folder is hidden in Finder and s
      !/agent/
      ```
 
-6. **Start** the first session with "let's continue with PLAN.md", then follow the [normal flow](#normal-flow): Start, Research, Perform, Verify, Finalize.
+6. **Start** the first session with "let's continue with PLAN.md" (in Claude Code, `/next`), then follow the [normal flow](#normal-flow): Start, Research, Perform, Verify, Finalize.
 
 ### Design Documents and Roadmaps
 
@@ -145,7 +145,7 @@ Every task goes through five phases. Each phase ends with a **handoff**: what th
 
 | Phase | What happens | Handoff |
 |---|---|---|
-| **Start** | Read the agent instructions and `PLAN.md`'s "Now" and "Then". Take the task under "Now", or the top of "Then", and read its task file. Create the branch, per the [git workflow](git-workflow.md), and a sprint note if the task needs one. | The task file's frontmatter names the branch and the phase. |
+| **Start** | Read the agent instructions and `PLAN.md`'s "Now" and "Then". Take the task under "Now", or the top of "Then", and read its task file. Create the branch, per the [git workflow](git-workflow.md), and a sprint note if the task needs one. In Claude Code, [`/next`](../skills/next/SKILL.md) does this and resumes where the status block says. | The task file's frontmatter names the branch and the phase. |
 | **Research** | Explore the code, reproduce the problem, try fixes in a scratch copy. | Findings, with their evidence, in the [sprint note](#sprint-notes); the chosen approach and its assumptions, and the decisions, in the task file; bugs found but not fixed as plan entries or Known Issues. |
 | **Perform** | Write the code and the docs. Update every doc the change affects: the repository's docs and changelog, the agent instructions for anything learned about the workspace, plan entries for anything found but not done. | Uncommitted changes; Done and Left in the task's status block. |
 | **Verify** | Check the change the way the project checks things: tests, the Quick Start, the examples. The workspace's agent instructions say how. | The results in the sprint note and the status block. |
@@ -157,7 +157,7 @@ In coding work, Perform and Verify alternate in small loops (change, test, chang
 
 1. **Review:** the agent leaves the change uncommitted and lists what changed, repository by repository; I review it in the editor.
 2. **Checkpoint:** once I approve, commit, merge, and push (see the [git workflow](git-workflow.md)). Update the plan: mark the task file done (or, if the task goes on, update its status block for the next round), move the next task up to "Now" in `PLAN.md`, and refill "Then" from the tasks below it. Mark the sprint note done. Check the conversation for anything not yet saved. Commit the workspace repository, if the workspace folder is one. Nothing should exist only in the conversation. In Claude Code, [`/allthethings`](../skills/allthethings/SKILL.md) does this step and the next.
-3. **Say so:** the agent tells me that everything is saved and `/clear` is safe, names the task the next session would take (the new "Now" in `PLAN.md`) in a line or two, and reminds me how to start it: "let's continue with PLAN.md". Seeing the next task first gives me the chance to reorder the plan before starting it.
+3. **Say so:** the agent tells me that everything is saved and `/clear` is safe, names the task the next session would take (the new "Now" in `PLAN.md`) in a line or two, and reminds me how to start it: "let's continue with PLAN.md", or `/next`. Seeing the next task first gives me the chance to reorder the plan before starting it.
 4. **`/clear`** and start the next session at Start.
 
 ### The Status Block
@@ -222,9 +222,9 @@ Write things down when they come up, not at the end, so a checkpoint only has to
 |---|---|
 | An important technical decision about how the software works, with its reasons and the options rejected | an ADR in the repository's `docs/decisions/` (see [Decision Records](documentation.md#decision-records-docsdecisions)), or a plan entry to write one. Smaller choices need no record beyond the commit message; when unsure, the agent asks me |
 | A preference about how I like things done | the relevant dev-handbook guideline |
-| A gotcha about the workspace: tools, builds, quirks, commands that work | the agent instructions (`CLAUDE.md` or `AGENTS.md`) |
+| A gotcha about the workspace: tools, builds, quirks, commands that work | the agent instructions (`CLAUDE.md` or `AGENTS.md`), or the note in `agent/notes/` they link for that topic |
 | A bug or improvement found but not fixed | a plan entry (a GitHub issue if others should see it, or the project is winding down), or "Possible Future Changes" if undecided |
-| A useful script written along the way | the workspace's `agent/scripts/`, noted in the agent instructions |
+| A useful script written along the way | the workspace's `agent/scripts/`, noted in its `README.md` (or in the agent instructions) |
 
 Anything written to a temporary scratch folder is lost with the session: move what's worth keeping.
 

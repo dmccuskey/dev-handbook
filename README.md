@@ -10,7 +10,7 @@ It is written for people first. Agents read the same files through [AGENTS.md](A
 - [Git Workflow](guidelines/git-workflow.md): a branch per change, commit messages, planned work, and public repositories
 - [Agent Workflow](guidelines/agent-workflow.md): the plan (`PLAN.md` as the index, a task file per task, sprint notes for the evidence), setting up a workspace, one task per session with a checkpoint before clearing, and emergency mode for large cleanups
 - [Templates](templates/): starting points for a [project README](templates/project-README.md), a [documentation home](templates/docs-README.md), an [ADR](templates/adr.md), and a workspace's [agent instructions](templates/workspace-CLAUDE.md) and plan ([PLAN.md](templates/workspace-PLAN.md), a [task file](templates/workspace-task.md), a [sprint note](templates/workspace-sprint.md))
-- [Skills](skills/): Claude Code skills: [`/init-workspace`](skills/init-workspace/SKILL.md) proposes and sets up a new workspace, or updates an existing one; [`/allthethings`](skills/allthethings/SKILL.md) runs the checkpoint (commit, merge, push, update the plan) after I've reviewed a change
+- [Skills](skills/): Claude Code skills: [`/init-workspace`](skills/init-workspace/SKILL.md) proposes and sets up a new workspace, or updates an existing one; [`/next`](skills/next/SKILL.md) starts a session on the current task; [`/allthethings`](skills/allthethings/SKILL.md) runs the checkpoint (commit, merge, push, update the plan) after I've reviewed a change
 - [CHANGES.md](CHANGES.md): changes to the workspace layout, with how to update a workspace; [`/init-workspace`](skills/init-workspace/SKILL.md) applies them
 - [AGENTS.md](AGENTS.md): the index for coding agents
 
