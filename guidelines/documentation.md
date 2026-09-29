@@ -101,7 +101,7 @@ An ADR records an important technical decision about how the system works, and w
 
 ## Planned Work and Ideas
 
-- **Decided work** goes in the workspace's plan files (`NEXT.md` and `PLAN.md`) while the project is under active work, and in detailed GitHub issues as it winds down (see [Planned Work](git-workflow.md#planned-work)). The docs link to the issues; they don't keep their own roadmap or TODO list.
+- **Decided work** goes in the workspace's plan (`PLAN.md` and its task files) while the project is under active work, and in detailed GitHub issues as it winds down (see [Planned Work](git-workflow.md#planned-work)). The docs link to the issues; they don't keep their own roadmap or TODO list.
 - **Undecided ideas** go under "Possible Future Changes" in `development.md`, which says plainly that each needs discussion and a concrete use case before it is worked on.
 - When an idea is decided, it moves out of the doc and into the plan or an issue.
 

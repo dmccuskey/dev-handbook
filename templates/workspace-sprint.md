@@ -1,22 +1,24 @@
 ---
-project: <workspace name>
+task: <slug>
 phase: Research
 status: active
 branch: <branch>
 repos: [<repository>, <another repository>]
 ---
 
-# <Task Name>
+# <Task Name>: <This Round>
 
 <!--
-Save as sprints/<yyyy-mm-dd-hhmm>-<task>.md in the workspace, for a task with
-a Research phase. Add to each section at the phase's handoff; don't rewrite
-earlier ones. Read on demand, never at session start: NEXT.md's status block
-links here. At the checkpoint set status: done.
+Save as agent/sprints/<yyyy-mm-dd-hhmm>-<slug>.md in the workspace, for one
+round of work on a task (usually one branch, from creation to merge) that
+needs its evidence kept. Add to each section at the phase's handoff; don't
+rewrite earlier ones. Read on demand, never at session start: the task file's
+status block links here. What the task needs (decisions, new steps, bugs) goes
+up into the task file or PLAN.md. At the round's end set status: done.
 See guidelines/agent-workflow.md, "Sprint Notes".
 -->
 
-<What the task is, in a sentence or two; link the GitHub issue or plan entry.>
+<What this round does, in a sentence or two. Task: [<Task Name>](../tasks/<slug>.md).>
 
 ## Research
 
