@@ -2,6 +2,7 @@
 name: allthethings
 description: End a session on reviewed work - commit, merge --no-ff into the default branch, push, update PLAN.md and the task file, commit the workspace repo, and name the next task. Only when the user types /allthethings.
 disable-model-invocation: true
+model: sonnet
 ---
 
 # All the Things
