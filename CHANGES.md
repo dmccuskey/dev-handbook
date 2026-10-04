@@ -4,6 +4,18 @@ Changes to how a workspace is laid out (its files, folders and plan format), new
 
 In Claude Code, [`/init-workspace`](skills/init-workspace/SKILL.md) run in an existing workspace checks each change below and proposes the updates it's missing. By hand: go down the list until a change's check passes; apply the ones above it, oldest first.
 
+## 2026-10-03: A Push Guard on the Workspace Repository
+
+A workspace folder's own repository is local only, and a `pre-push` hook now enforces it: a stray `git push` or a GUI client's "Publish" button would otherwise put private notes on a server. See step 5 of [Setting Up a Workspace](guidelines/agent-workflow.md#setting-up-a-workspace). Not needed when the workspace is the repository itself.
+
+**Has it:** `.git/hooks/pre-push` in the workspace folder exists, is executable, and exits 1; `git remote` prints nothing.
+
+**Update:**
+
+1. **Check for a remote** with `git remote -v`. If there is one, ask before removing it (`git remote remove <name>`): the repository may already be on a server, and deleting it there is the user's call.
+2. **Add the hook** from the guideline as `.git/hooks/pre-push`, and `chmod +x` it.
+3. **Check** that `git config core.hooksPath` prints nothing: if it is set, hooks are read from that folder and the one in `.git/hooks` is ignored.
+
 ## 2026-09-29: `CLAUDE.md` as an Index
 
 The agent instructions are loaded into every session, so they keep only what every session needs (layout, working rules, the build and test commands, gotchas that fail silently) and link the rest: notes in `agent/notes/` for detail needed only for some tasks, listed in a "Notes" table with when to read each. In Claude Code, sessions start with [`/next`](skills/next/SKILL.md). See [Setting Up a Workspace](guidelines/agent-workflow.md#setting-up-a-workspace).

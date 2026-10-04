@@ -123,6 +123,17 @@ The folder is `agent/`, not `.agent/`: a hidden folder is hidden in Finder and s
      !/agent/
      ```
 
+     A **push guard** keeps it local. A stray `git push`, or a GUI client's "Publish" button, would otherwise put private notes on a server. Save this as `.git/hooks/pre-push` and make it executable (`chmod +x`):
+
+     ```sh
+     #!/bin/sh
+     # This workspace is private and local-only: refuse every push.
+     echo "push refused: this workspace is a local-only repository (.git/hooks/pre-push)" >&2
+     exit 1
+     ```
+
+     It refuses a push to any remote, including one added later. It does not stop `git push --no-verify`. Hooks are not versioned, so a copy of the folder made without `.git` needs the hook added again. The checkouts inside the folder have their own `.git` and push as before.
+
 6. **Start** the first session with "let's continue with PLAN.md" (in Claude Code, `/next`), then follow the [normal flow](#normal-flow): Start, Research, Perform, Verify, Finalize.
 
 ### Design Documents and Roadmaps

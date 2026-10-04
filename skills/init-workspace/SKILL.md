@@ -31,7 +31,7 @@ Change nothing in this phase: read and run read-only commands only.
    - **`CLAUDE.md`:** an outline, the template's sections filled with what was found (layout, build and test commands, differences from the handbook such as the default branch). Leave out sections with nothing to say.
    - **`PLAN.md`:** the goal if there is one, the first task under "Now", the next few under "Then", a structure for the rest if the project has one (a cleanup flow, releases), and anything waiting.
    - **Task files:** one for the first task, with its status block; the others get theirs when they need detail.
-   - **Version control** for these files: committed in the repository (public: nothing identifying in them, or `PLAN.md` and `agent/` in `.gitignore`), or the workspace folder as a private repository with the handbook's `.gitignore`, local only: no remote (it's for undoing a bad edit; the machine's backup covers the disk).
+   - **Version control** for these files: committed in the repository (public: nothing identifying in them, or `PLAN.md` and `agent/` in `.gitignore`), or the workspace folder as a private repository with the handbook's `.gitignore`, local only: no remote, and the handbook's push guard (it's for undoing a bad edit; the machine's backup covers the disk).
    - **Design documents:** where each part goes, per the handbook's "Design Documents and Roadmaps" (architecture, ADRs, milestones and issues, the plan), and when: linked from `CLAUDE.md` while it is still changing, or moved into the repository as the first task in `PLAN.md`.
    - **Anything existing** that would change: an existing `CLAUDE.md` or `AGENTS.md` is extended, not replaced.
 5. **Stop** and ask the user to approve or discuss. Don't start Phase 2 on your own.
@@ -42,7 +42,7 @@ Only after the user approves, and as approved:
 
 1. Create the workspace folder and move the checkout into it, if approved. Moving the folder the session runs in breaks the session: in that case, do the other steps first, give the user the exact commands (`mkdir`, `mv`) to run themselves, and tell them to start the next session in the new root.
 2. Create the approved folders, and `CLAUDE.md`, `PLAN.md` and the first task file from the templates, filled in: no leftover placeholders or template comments. Write in the handbook's documentation style.
-3. Set up version control for them as approved. For a workspace folder: `git init`, the handbook's `.gitignore` (adjusted for the approved folders), and check with `git status --short` that only the workspace's own files are tracked. Leave the files uncommitted for the user to review, per the handbook. Create no GitHub repository and push nothing unless the user asked for it.
+3. Set up version control for them as approved. For a workspace folder: `git init`, the handbook's `.gitignore` (adjusted for the approved folders), the handbook's push guard as `.git/hooks/pre-push` (executable), and check with `git status --short` that only the workspace's own files are tracked. Leave the files uncommitted for the user to review, per the handbook. Create no GitHub repository and push nothing unless the user asked for it.
 4. Report what was created, folder by folder, then tell the user to review it, and to start the next session with `/next` (or "let's continue with PLAN.md").
 
 ## Updating a Workspace
