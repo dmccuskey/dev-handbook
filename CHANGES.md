@@ -4,9 +4,23 @@ Changes to how a workspace is laid out (its files, folders and plan format), new
 
 In Claude Code, [`/init-workspace`](skills/init-workspace/SKILL.md) run in an existing workspace checks each change below and proposes the updates it's missing. By hand: go down the list until a change's check passes; apply the ones above it, oldest first.
 
+## 2026-10-13: The Workspace Repository Synced to a Private Remote
+
+A workspace folder's own repository is no longer local only by rule. The usual way is now **synced**: one remote, `origin`, a private repository on the server for private code (GitLab, never GitHub), so the work can move between machines. **Local only** remains for a workspace that stays on one machine. The push guard changes with it: it lets through a push to the remote named in `git config workspace.pushUrl` and refuses every other, and with nothing named it refuses all, as before. See step 5 of [Setting Up a Workspace](guidelines/agent-workflow.md#setting-up-a-workspace) and [Working on More Than One Machine](guidelines/agent-workflow.md#working-on-more-than-one-machine). Not needed when the workspace is the repository itself.
+
+**Has it:** `.git/hooks/pre-push` in the workspace folder is executable and reads `workspace.pushUrl`. A fresh clone on another machine fails this until the guard is added there.
+
+**Update:**
+
+1. **Ask which way** this workspace is kept: synced, or local only.
+2. **Replace the hook** with the one from the guideline, and `chmod +x` it. Check that `git config core.hooksPath` prints nothing. A local-only workspace is done here, apart from step 5.
+3. **Add the remote,** for a synced workspace. The user creates the private repository and gives its address: `git remote add origin <address>`, then `git config workspace.pushUrl "$(git remote get-url --push origin)"`. If the folder is a fresh clone, the remote is there already and only the setting is missing.
+4. **Look before the first push:** search the tracked files for passwords, tokens and keys (`git grep -inE 'password|secret|token|api[_-]?key'`), and their history if anything was ever committed and removed. Report what is found. Push (`git push -u origin <default-branch>`) only on the user's go-ahead.
+5. **Update the instructions:** `CLAUDE.md` says which way the workspace is kept, in place of any line calling it local only or saying the hook refuses every push, and its "Layout" gives the address each checkout is cloned from.
+
 ## 2026-10-03: A Push Guard on the Workspace Repository
 
-A workspace folder's own repository is local only, and a `pre-push` hook now enforces it: a stray `git push` or a GUI client's "Publish" button would otherwise put private notes on a server. See step 5 of [Setting Up a Workspace](guidelines/agent-workflow.md#setting-up-a-workspace). Not needed when the workspace is the repository itself.
+A workspace folder's own repository is local only, and a `pre-push` hook now enforces it: a stray `git push` or a GUI client's "Publish" button would otherwise put private notes on a server. See step 5 of [Setting Up a Workspace](guidelines/agent-workflow.md#setting-up-a-workspace). Not needed when the workspace is the repository itself. Changed by [2026-10-13](#2026-10-13-the-workspace-repository-synced-to-a-private-remote): a workspace that needs both takes the hook and the remote from that one.
 
 **Has it:** `.git/hooks/pre-push` in the workspace folder exists, is executable, and exits 1; `git remote` prints nothing.
 

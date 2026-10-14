@@ -14,7 +14,9 @@ See guidelines/agent-workflow.md, "Setting Up a Workspace".
 
 ## Layout
 
-<!-- For a folder of repositories: one row per repository or group. -->
+<!-- For a folder of repositories: one row per repository or group, with the address each is
+     cloned from, so the workspace can be set up on another machine. Say whether the workspace
+     folder's own repository is synced to a private remote, or local only. -->
 
 | folder | holds |
 |---|---|

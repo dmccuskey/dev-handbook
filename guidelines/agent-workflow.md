@@ -112,7 +112,7 @@ The folder is `agent/`, not `.agent/`: a hidden folder is hidden in Finder and s
 4. **Write the plan** from the templates: `PLAN.md` with the goal and the tasks, and a task file for the first task, linked under "Now".
 5. **Put them under version control,** so a bad edit can be undone and a lost disk doesn't lose them:
    - *The repository as the workspace:* commit them with the code. If the repository is public, keep identifying details out of them (see [Public Repositories](git-workflow.md#public-repositories)), or list `PLAN.md` and `agent/` in `.gitignore` if they hold notes that shouldn't be published.
-   - *A workspace folder:* make the folder itself a small **private** repository that tracks only its own files and ignores the checkouts and installed tools. Its instructions describe the local layout, so it stays **local, with no remote**: it's for undoing a bad edit and reviewing how the files changed, and the machine's backup covers a lost disk:
+   - *A workspace folder:* make the folder itself a small **private** repository that tracks only its own files and ignores the checkouts and installed tools:
 
      ```gitignore
      # track only the workspace's own files, not the checkouts or installed tools
@@ -123,18 +123,62 @@ The folder is `agent/`, not `.agent/`: a hidden folder is hidden in Finder and s
      !/agent/
      ```
 
-     A **push guard** keeps it local. A stray `git push`, or a GUI client's "Publish" button, would otherwise put private notes on a server. Save this as `.git/hooks/pre-push` and make it executable (`chmod +x`):
+     It is kept in one of two ways, and its instructions say which:
+
+     - **Synced** (the usual way): it has one remote, `origin`, a **private** repository on the server that holds my private code. That is GitLab; GitHub is for the open source, so a workspace never goes there. The remote carries the plan and the notes from one machine to another (see [Working on More Than One Machine](#working-on-more-than-one-machine)) and covers a lost disk.
+     - **Local only:** no remote. For a workspace that stays on one machine, such as one tied to hardware attached to it. The repository is then for undoing a bad edit and reviewing how the files changed, and the machine's backup covers a lost disk.
+
+     Either way a **push guard** keeps the notes private. A stray `git push` to the wrong place, or a GUI client's "Publish" button, would otherwise put them on a public server. Save this as `.git/hooks/pre-push` and make it executable (`chmod +x`):
 
      ```sh
      #!/bin/sh
-     # This workspace is private and local-only: refuse every push.
-     echo "push refused: this workspace is a local-only repository (.git/hooks/pre-push)" >&2
+     # This workspace is private: refuse every push but one to its own private remote.
+     # $2 is the address being pushed to; workspace.pushUrl is unset in a local-only workspace.
+     allowed=$(git config --get workspace.pushUrl)
+     [ -n "$allowed" ] && [ "$2" = "$allowed" ] && exit 0
+     echo "push refused: this workspace pushes only to ${allowed:-nowhere (it is local only)} (.git/hooks/pre-push)" >&2
      exit 1
      ```
 
-     It refuses a push to any remote, including one added later. It does not stop `git push --no-verify`. Hooks are not versioned, so a copy of the folder made without `.git` needs the hook added again. The checkouts inside the folder have their own `.git` and push as before.
+     A synced workspace names its remote to the guard:
+
+     ```sh
+     git config workspace.pushUrl "$(git remote get-url --push origin)"
+     ```
+
+     Without that setting the guard refuses every push, which is what a local-only workspace needs. With it, the guard still refuses any other remote, including one added later, and a push to another address. It does not stop `git push --no-verify`. Neither the hook nor the setting is versioned, so a fresh clone has neither until they are added. The checkouts inside the folder have their own `.git` and push as before.
+
+     A synced workspace is on a server, private or not: keep passwords, tokens and keys out of its files, as out of any repository.
 
 6. **Start** the first session with "let's continue with PLAN.md" (in Claude Code, `/next`), then follow the [normal flow](#normal-flow): Start, Research, Perform, Verify, Finalize.
+
+### Working on More Than One Machine
+
+A workspace can move between machines: a desktop for most of the work, a laptop for travel or for a job that needs it. Two things carry it: the workspace's own repository, through its private remote, and each checkout, through its own remote. Nothing else travels:
+
+| does not travel | so |
+|---|---|
+| uncommitted changes, and branches that are not pushed | finish the work before leaving a machine (below) |
+| installed tools, dependencies and build output | install and build again on each machine, per the workspace's instructions |
+| the push guard and its setting | add them on each machine |
+| an agent's own memory of the folder | what must last goes in the workspace's files, as always |
+| this handbook, and the agent setup that points to it | set it up on each machine, per the [README](../README.md#setup) |
+
+**Keep the same path on every machine** (`~/development/<name>/`), so the paths in the instructions and notes hold on both. A fact that is true of one machine only (a port in use, a device attached, an installed version) names the machine: "on the laptop".
+
+**Leaving a machine.** Finish first: every change in progress is completed, reviewed, merged and pushed, and the workspace repository is committed and pushed, so the workspace is ready for `/clear` and `/next` on either machine. That is the ordinary checkpoint (see [Normal Flow](#normal-flow)), and it is the rule.
+
+Only when the work cannot be finished in time: commit it on its branch and push the branch to the checkout's own remote, update the task's status block, and commit and push the workspace repository. The unmerged branch of an open source checkout is then on GitHub and public: scan it for identifying details first (see [Public Repositories](git-workflow.md#public-repositories)), and delete it on the remote after the merge. Each push waits for my go-ahead, as always.
+
+**Arriving at a machine.** In the workspace folder, `git pull --ff-only`. In each checkout, `git fetch`, and check out the task's branch. Install again if the dependencies changed. In Claude Code, [`/next`](../skills/next/SKILL.md) does the first two. A workspace repository with commits on both machines does not fast-forward: stop and look at both sides before joining them.
+
+**The first time on a machine:**
+
+1. Clone the workspace repository to the same path: `git clone <address> ~/development/<name>`.
+2. Add the push guard and its setting, from step 5 above.
+3. Clone each checkout into the folder the instructions' "Layout" names, from the address given there.
+4. Install the tools and dependencies, per the instructions.
+5. Start the session there, as on the other machine.
 
 ### Design Documents and Roadmaps
 
@@ -167,7 +211,7 @@ In coding work, Perform and Verify alternate in small loops (change, test, chang
 **Finalize** in detail:
 
 1. **Review:** the agent leaves the change uncommitted and lists what changed, repository by repository; I review it in the editor.
-2. **Checkpoint:** once I approve, commit, merge, and push (see the [git workflow](git-workflow.md)). Update the plan: mark the task file done (or, if the task goes on, update its status block for the next round), move the next task up to "Now" in `PLAN.md`, and refill "Then" from the tasks below it. Mark the sprint note done. Check the conversation for anything not yet saved. Commit the workspace repository, if the workspace folder is one. Nothing should exist only in the conversation. In Claude Code, [`/allthethings`](../skills/allthethings/SKILL.md) does this step and the next.
+2. **Checkpoint:** once I approve, commit, merge, and push (see the [git workflow](git-workflow.md)). Update the plan: mark the task file done (or, if the task goes on, update its status block for the next round), move the next task up to "Now" in `PLAN.md`, and refill "Then" from the tasks below it. Mark the sprint note done. Check the conversation for anything not yet saved. Commit the workspace repository, if the workspace folder is one, and push it if it is synced. Nothing should exist only in the conversation. In Claude Code, [`/allthethings`](../skills/allthethings/SKILL.md) does this step and the next.
 3. **Say so:** the agent tells me that everything is saved and `/clear` is safe, names the task the next session would take (the new "Now" in `PLAN.md`) in a line or two, and reminds me how to start it: "let's continue with PLAN.md", or `/next`. Seeing the next task first gives me the chance to reorder the plan before starting it.
 4. **`/clear`** and start the next session at Start.
 
