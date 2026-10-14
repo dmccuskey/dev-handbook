@@ -12,16 +12,18 @@ If the user gave an argument, it names the task to take instead of "Now" (a task
 
 ## Steps
 
-1. **Read the plan's top.** The agent instructions (`CLAUDE.md` or `AGENTS.md`) are already loaded. Read `PLAN.md` from the top through the end of "Then" only (`awk '/^## /&&t{exit} /^## Then/{t=1} 1' PLAN.md`). The rest of `PLAN.md` is for planning, not for starting.
+1. **Bring the workspace up to date,** if the workspace folder is a repository of its own with a remote (`git remote` prints one): the work may have gone on at another machine. `git fetch`, then `git merge --ff-only` when its branch is behind and its tree is clean. If it has commits of its own as well, or uncommitted changes that are in the way, report it and change nothing: the user joins the two sides.
+2. **Read the plan's top.** The agent instructions (`CLAUDE.md` or `AGENTS.md`) are already loaded. Read `PLAN.md` from the top through the end of "Then" only (`awk '/^## /&&t{exit} /^## Then/{t=1} 1' PLAN.md`). The rest of `PLAN.md` is for planning, not for starting.
    - **An older workspace with `NEXT.md`** keeps "Now", "Then" and the status block there: read `NEXT.md` instead, and follow the same steps with its status block.
    - **No "Now"** (the last task was finished and nothing moved up): take the top of "Then", and say so.
-2. **Read the task file** it links (in `agent/tasks/`): the frontmatter and `## Status` always, the rest of the file when the phase or the Next step needs it (e.g. a design section it names). Read the sprint note only if Next step points into it, or the phase is Research or Verify and the task has one in progress.
-3. **Check the repositories** named in `repos:`, each one: its current branch (`git branch --show-current`) and whether its working tree is clean.
+3. **Read the task file** it links (in `agent/tasks/`): the frontmatter and `## Status` always, the rest of the file when the phase or the Next step needs it (e.g. a design section it names). Read the sprint note only if Next step points into it, or the phase is Research or Verify and the task has one in progress.
+4. **Check the repositories** named in `repos:`, each one: `git fetch`, then its current branch (`git branch --show-current`) and whether its working tree is clean.
+   - **A branch is named** and exists only on the remote (it was pushed from another machine): check it out, with a clean tree.
    - **A branch is named** and exists: if the repo is on it, fine; if it's on another branch with a clean tree, check the named branch out.
    - **No branch yet** and the phase is Start: create one per the git workflow (named for the change, from an up-to-date default branch; the workspace's instructions name the default branch), and write it to the task's frontmatter. A task that changes nothing in a repository (planning, a workspace-only change) needs no branch.
-   - **Anything unexpected** (uncommitted changes on the wrong branch, a named branch that's missing, a default branch behind its remote with local commits): report it and change nothing in that repo.
-4. **Say where things stand**, in two or three lines: the task, its phase, the branch per repo, and the Next step. A phase of Start moves to the next phase the task needs; update the frontmatter when it does.
-5. **Carry on with the Next step.** Read the workspace notes (`agent/notes/`) that the task or the agent instructions point to only when the step needs them. If the step needs the user (to propose a design, to review, a decision listed as waiting), do that part and stop for them.
+   - **Anything unexpected** (uncommitted changes on the wrong branch, a named branch that's missing, a branch that is behind its remote and has commits of its own, a default branch behind its remote with local commits): report it and change nothing in that repo.
+5. **Say where things stand**, in two or three lines: the task, its phase, the branch per repo, and the Next step. A phase of Start moves to the next phase the task needs; update the frontmatter when it does.
+6. **Carry on with the Next step.** Read the workspace notes (`agent/notes/`) that the task or the agent instructions point to only when the step needs them. If the step needs the user (to propose a design, to review, a decision listed as waiting), do that part and stop for them.
 
 ## Rules
 
