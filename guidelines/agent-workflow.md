@@ -92,7 +92,7 @@ A workspace is the folder where agent sessions start: usually a folder that hold
 | `PLAN.md` | the index: the goal, "Now" and "Then", every other task by link, what is waiting | [workspace-PLAN.md](../templates/workspace-PLAN.md) |
 | `agent/tasks/` | a [task file](#task-files) for each task | [workspace-task.md](../templates/workspace-task.md) |
 | `agent/sprints/` | a [sprint note](#sprint-notes) for each round of work that needs one, read on demand; created with the first one | [workspace-sprint.md](../templates/workspace-sprint.md) |
-| `agent/notes/` | notes and research: procedures, cached documentation, investigation logs; created when needed | |
+| `agent/notes/` | notes and research: procedures, cached documentation, investigation logs, and the project's [working rules](#the-agents-own-memory) (`working-rules.md`); created when needed | |
 | `agent/scripts/` | scripts written along the way; created when needed | |
 
 The folder is `agent/`, not `.agent/`: a hidden folder is hidden in Finder and skipped by Obsidian too.
@@ -161,7 +161,7 @@ A workspace can move between machines: a desktop for most of the work, a laptop 
 | uncommitted changes, and branches that are not pushed | finish the work before leaving a machine (below) |
 | installed tools, dependencies and build output | install and build again on each machine, per the workspace's instructions |
 | the push guard and its setting | add them on each machine |
-| an agent's own memory of the folder | what must last goes in the workspace's files, as always |
+| an agent's own memory of the folder | promote it into the workspace's files at each checkpoint (see [The Agent's Own Memory](#the-agents-own-memory)) |
 | this handbook, and the agent setup that points to it | set it up on each machine, per the [README](../README.md#setup) |
 
 **Keep the same path on every machine** (`~/development/<name>/`), so the paths in the instructions and notes hold on both. A fact that is true of one machine only (a port in use, a device attached, an installed version) names the machine: "on the laptop".
@@ -211,7 +211,7 @@ In coding work, Perform and Verify alternate in small loops (change, test, chang
 **Finalize** in detail:
 
 1. **Review:** the agent leaves the change uncommitted and lists what changed, repository by repository; I review it in the editor.
-2. **Checkpoint:** once I approve, commit, merge, and push (see the [git workflow](git-workflow.md)). Update the plan: mark the task file done (or, if the task goes on, update its status block for the next round), move the next task up to "Now" in `PLAN.md`, and refill "Then" from the tasks below it. Mark the sprint note done. Check the conversation for anything not yet saved. Commit the workspace repository, if the workspace folder is one, and push it if it is synced. Nothing should exist only in the conversation. In Claude Code, [`/allthethings`](../skills/allthethings/SKILL.md) does this step and the next.
+2. **Checkpoint:** once I approve, commit, merge, and push (see the [git workflow](git-workflow.md)). Update the plan: mark the task file done (or, if the task goes on, update its status block for the next round), move the next task up to "Now" in `PLAN.md`, and refill "Then" from the tasks below it. Mark the sprint note done. Check the conversation for anything not yet saved, and promote anything new in the agent's own memory (see [The Agent's Own Memory](#the-agents-own-memory)). Commit the workspace repository, if the workspace folder is one, and push it if it is synced. Nothing should exist only in the conversation. In Claude Code, [`/allthethings`](../skills/allthethings/SKILL.md) does this step and the next.
 3. **Say so:** the agent tells me that everything is saved and `/clear` is safe, names the task the next session would take (the new "Now" in `PLAN.md`) in a line or two, and reminds me how to start it: "let's continue with PLAN.md", or `/next`. Seeing the next task first gives me the chance to reorder the plan before starting it.
 4. **`/clear`** and start the next session at Start.
 
@@ -277,11 +277,27 @@ Write things down when they come up, not at the end, so a checkpoint only has to
 |---|---|
 | An important technical decision about how the software works, with its reasons and the options rejected | an ADR in the repository's `docs/decisions/` (see [Decision Records](documentation.md#decision-records-docsdecisions)), or a plan entry to write one. Smaller choices need no record beyond the commit message; when unsure, the agent asks me |
 | A preference about how I like things done | the relevant dev-handbook guideline |
+| A rule for this project only, from a correction or a choice I made | the workspace's [working rules](#the-agents-own-memory) |
 | A gotcha about the workspace: tools, builds, quirks, commands that work | the agent instructions (`CLAUDE.md` or `AGENTS.md`), or the note in `agent/notes/` they link for that topic |
 | A bug or improvement found but not fixed | a plan entry (a GitHub issue if others should see it, or the project is winding down), or "Possible Future Changes" if undecided |
 | A useful script written along the way | the workspace's `agent/scripts/`, noted in its `README.md` (or in the agent instructions) |
 
 Anything written to a temporary scratch folder is lost with the session: move what's worth keeping.
+
+### The Agent's Own Memory
+
+Some harnesses keep a memory of their own: in Claude Code, `~/.claude/projects/<path>/memory/`, one per starting folder. It is useful within a machine, but it stays on that machine and that user account, and no other harness reads it. So it is a scratchpad: what must last is promoted into files, and the memory entry is then removed, so the rule doesn't live in two places that drift apart.
+
+A memory entry goes to the first place that fits:
+
+1. **The repository's docs,** if it is about the project and any contributor needs it: an ADR or its amendment, the configuration reference, the contributor guide.
+2. **The agent instructions' "Working Rules",** if it is short and every session needs it.
+3. **`agent/notes/working-rules.md`,** for the rest: the project's rules for agents that its docs leave out. Each rule names where it is documented, if anywhere, and adds what the docs don't say: why (the correction or the choice behind it), how to apply it (the tests to add, the doc to keep in step), and what not to propose. It is linked from the instructions' "Notes" table, with when to read it.
+4. **The dev-handbook,** if it is about how I work everywhere, not this project.
+
+Facts about the work in progress go in the task file, as always. Personal details stay out of all of these as out of any file: the workspace repository may be private, but the checkouts are often public.
+
+The memory is checked at every checkpoint (see [Finalize](#normal-flow)): anything new is promoted, then removed from the memory. Because promoted entries are removed, whatever is left is new, so the check reads only the memory's index (in Claude Code, `MEMORY.md`, which is loaded into every session anyway) and opens just the entries it lists; an empty index means nothing to do. Never read the whole memory to find what changed.
 
 ## Emergency Mode
 

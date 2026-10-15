@@ -4,6 +4,20 @@ Changes to how a workspace is laid out (its files, folders and plan format), new
 
 In Claude Code, [`/init-workspace`](skills/init-workspace/SKILL.md) run in an existing workspace checks each change below and proposes the updates it's missing. By hand: go down the list until a change's check passes; apply the ones above it, oldest first.
 
+## 2026-10-15: Working Rules Promoted From the Agent's Memory
+
+An agent's own memory (in Claude Code, `~/.claude/projects/<path>/memory/`) stays on one machine and one user account, and no other harness reads it. It is now a scratchpad: at each checkpoint, what it holds is promoted into files and removed from it. The project's rules for agents that its docs leave out go in `agent/notes/working-rules.md`, linked from the instructions' "Notes" table. See [The Agent's Own Memory](guidelines/agent-workflow.md#the-agents-own-memory).
+
+**Has it:** the agent's memory for the workspace is empty, or holds only entries already written down; and if there is an `agent/notes/working-rules.md`, `CLAUDE.md` links it under "Notes".
+
+**Update:**
+
+1. **Read the memory** for the workspace, every entry.
+2. **Check each against what is written down:** the repository's docs, `CLAUDE.md`, `agent/notes/`, and the dev-handbook. An entry that is fully covered needs nothing more.
+3. **Promote the rest,** per [The Agent's Own Memory](guidelines/agent-workflow.md#the-agents-own-memory): to the repository's docs (on a branch, as any change there), the `CLAUDE.md` "Working Rules", `agent/notes/working-rules.md`, or the dev-handbook. In `working-rules.md`, one section per rule: where the rule is documented, then why, how to apply it, and what not to propose. Leave out personal details, such as account names and hosts.
+4. **Link the note** from the "Notes" table in `CLAUDE.md`, with when to read it, and check that its links resolve.
+5. **Clear the memory,** once the user has reviewed the promoted text: remove each promoted or covered entry and its line in the memory's index (`MEMORY.md` in Claude Code). Ask before removing anything else. Do this on each machine that has a memory for the workspace.
+
 ## 2026-10-13: The Workspace Repository Synced to a Private Remote
 
 A workspace folder's own repository is no longer local only by rule. The usual way is now **synced**: one remote, `origin`, a private repository on the server for private code (GitLab, never GitHub), so the work can move between machines. **Local only** remains for a workspace that stays on one machine. The push guard changes with it: it lets through a push to the remote named in `git config workspace.pushUrl` and refuses every other, and with nothing named it refuses all, as before. See step 5 of [Setting Up a Workspace](guidelines/agent-workflow.md#setting-up-a-workspace) and [Working on More Than One Machine](guidelines/agent-workflow.md#working-on-more-than-one-machine). Not needed when the workspace is the repository itself.
