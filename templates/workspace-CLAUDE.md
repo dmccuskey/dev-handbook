@@ -55,3 +55,4 @@ The dev-handbook guidelines apply as written, except:
 | read | when |
 |---|---|
 | [agent/notes/<topic>.md](agent/notes/<topic>.md) | <the tasks that need it, e.g. "before changing the build"> |
+| [agent/notes/working-rules.md](agent/notes/working-rules.md) | <the tasks its rules apply to, e.g. "before changing the log output or planning new work"> |
