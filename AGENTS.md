@@ -10,6 +10,8 @@ This file is an index. Read a guideline when the task calls for it, not up front
 - Leave changes uncommitted for me to review. Commit, merge, and push only when asked; pull requests only sparingly.
 - Keep the state of the work in the workspace's `PLAN.md` (the index: "Now", "Then", every task by link; read its top first) and its task files in `agent/tasks/`, never only in the conversation, so the session can be cleared at any time. See [guidelines/agent-workflow.md](guidelines/agent-workflow.md).
 - Keep identifying details (real addresses, hostnames, account names, personal paths) out of anything committed to a public repository.
+- A question about a design ("can we...?", "should we...?", "thoughts?") asks for an answer and a recommendation, not a change: build only on a go-ahead ("add", "fix", "go ahead").
+- Never `rm` a path built from a shell variable unless every variable is guarded (`rm -f "${DIR:?}/${name:?}"`): an empty one deletes from the wrong place, and the harness stops the command to ask.
 
 ## When the Task Calls for It
 

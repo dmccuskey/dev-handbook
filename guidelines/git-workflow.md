@@ -30,6 +30,8 @@ Workflow:
 
 A branch holds one change. Unrelated changes go on separate branches, even when they are small, so each can be tested, merged, and reverted on its own.
 
+No `.DS_Store` files in any repository: make sure they are ignored (globally, or in the repository's `.gitignore`), delete untracked ones, and remove a tracked one with `git rm --cached` as part of the change.
+
 ### Pull Requests, Sparingly
 
 I work alone, so process is worth its cost only where it adds something. The review happens before the commit (step 3), so most changes are merged directly. Open a pull request only for:
