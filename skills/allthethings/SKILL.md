@@ -8,6 +8,8 @@ disable-model-invocation: true
 
 The user has reviewed the uncommitted changes and approves the full checkpoint. **This is explicit approval to commit, merge into the default branch, and push to the remote.** Do not ask again before any of these steps.
 
+The user may say "do all the things" (or "all the things") in the chat instead of typing the command, after reviewing: it is the same approval, so follow the same steps.
+
 It ends the session: afterwards nothing exists only in the conversation, and the user can `/clear`.
 
 Follow the project's own rules where they differ from these (its `CLAUDE.md`, `AGENTS.md`, `docs/development.md`, and `~/development/dev-handbook/guidelines/git-workflow.md` and `agent-workflow.md`), especially for the default branch name (`main` or `master`).
