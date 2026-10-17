@@ -4,6 +4,20 @@ Changes to how a workspace is laid out (its files, folders and plan format), new
 
 In Claude Code, [`/init-workspace`](skills/init-workspace/SKILL.md) run in an existing workspace checks each change below and proposes the updates it's missing. By hand: go down the list until a change's check passes; apply the ones above it, oldest first.
 
+## 2026-10-16: The Workspace Folder Named `<name>-workspace`, Kept Flat
+
+A workspace folder is now named `<name>-workspace` (`~/development/<name>-workspace/`), and holds its own files and every checkout side by side: no group folders, no symlinks. The suffix tells it apart from the repositories inside. See step 1 of [Setting Up a Workspace](guidelines/agent-workflow.md#setting-up-a-workspace). Not needed when the workspace is the repository itself. Optional for a workspace that works as it is: renaming one is a move, best done when it moves anyway (to another machine, say).
+
+**Has it:** the workspace folder's name ends in `-workspace`, and every checkout is directly inside it (`find . -mindepth 3 -maxdepth 3 -name .git` and `find . -maxdepth 1 -type l` list nothing).
+
+**Update:** ask first; it moves every checkout.
+
+1. **Promote the agent's memory** of the folder, per the 2026-10-15 change: the memory is keyed by the folder, so it is left behind.
+2. **Finish or push** the work in progress, as when leaving a machine (see [Working on More Than One Machine](guidelines/agent-workflow.md#working-on-more-than-one-machine)).
+3. **Move** the workspace repository and each checkout into `~/development/<name>-workspace/` with `mv`, which keeps their history, branches and remotes. Replace each symlink with the checkout it pointed to. Moving the folder the session runs in breaks the session: give the user the commands to run, and start the next session in the new folder.
+4. **Rebuild** the installed tools that aren't relocatable (virtual environments, built runtimes), then run the tests.
+5. **Fix the paths:** the instructions, the live notes and the scripts name the new folder; done tasks and old sprint notes keep the old one as history. On another machine, clone the workspace to the new path and set it up as the first time (see [Working on More Than One Machine](guidelines/agent-workflow.md#working-on-more-than-one-machine)).
+
 ## 2026-10-15: Working Rules Promoted From the Agent's Memory
 
 An agent's own memory (in Claude Code, `~/.claude/projects/<path>/memory/`) stays on one machine and one user account, and no other harness reads it. It is now a scratchpad: at each checkpoint, what it holds is promoted into files and removed from it. The project's rules for agents that its docs leave out go in `agent/notes/working-rules.md`, linked from the instructions' "Notes" table. See [The Agent's Own Memory](guidelines/agent-workflow.md#the-agents-own-memory).
