@@ -97,7 +97,7 @@ A workspace is the folder where agent sessions start: usually a folder that hold
 
 The folder is `agent/`, not `.agent/`: a hidden folder is hidden in Finder and skipped by Obsidian too.
 
-1. **Pick the root.** Prefer a **workspace folder** around the repository, `~/development/<name>/<repo>/`. It is a private place for what doesn't belong in the repository:
+1. **Pick the root.** Prefer a **workspace folder** around the repository, `~/development/<name>-workspace/<repo>/`. It is a private place for what doesn't belong in the repository:
    - tools that aren't the project's own: built runtimes, virtual environments, pinned command-line tools (often machine-specific and not relocatable, so they stay where they were built, e.g. a `tools/` folder at the root, untracked)
    - notes and research: cached documentation, investigation logs
    - scripts written along the way
@@ -105,6 +105,8 @@ The folder is `agent/`, not `.agent/`: a hidden folder is hidden in Finder and s
    - room for related repositories, or [worktrees](https://git-scm.com/docs/git-worktree) for other branches (`git worktree add ../<repo>-dev dev`: a second checkout that shares one history, instead of a second clone)
 
    Anything other contributors need, such as build steps, tests, or a script the project depends on, still belongs in the repository and its docs; the workspace's instructions link there instead of repeating it.
+
+   **Name it `<name>-workspace`,** after the project (`shop-workspace`, around `shop/` and `shop-theme/`). The suffix tells the folder apart from the repositories in it: no `shop/shop/`, and no folder that looks like a checkout but isn't one. Keep it **flat**: the workspace's own files and every checkout side by side in that one folder, with no group folders and no symlinks, so a checkout reaches its neighbors as `../<repo>`, as it would in plain sibling checkouts. Pick the name once: renaming the folder later breaks the tools built in it and leaves the agent's memory of the old folder behind (see [The Agent's Own Memory](#the-agents-own-memory)).
 
    The repository alone is enough for a small project whose tools come from its own package manager and that has no local notes: then the workspace root is the repository root.
 2. **Always start sessions there.** Claude Code reads `CLAUDE.md` from the folder a session starts in and its parents, and keeps its memory per starting folder: a session started in a subfolder misses both.
@@ -164,7 +166,7 @@ A workspace can move between machines: a desktop for most of the work, a laptop 
 | an agent's own memory of the folder | promote it into the workspace's files at each checkpoint (see [The Agent's Own Memory](#the-agents-own-memory)) |
 | this handbook, and the agent setup that points to it | set it up on each machine, per the [README](../README.md#setup) |
 
-**Keep the same path on every machine** (`~/development/<name>/`), so the paths in the instructions and notes hold on both. A fact that is true of one machine only (a port in use, a device attached, an installed version) names the machine: "on the laptop".
+**Keep the same path on every machine** (`~/development/<name>-workspace/`), so the paths in the instructions and notes hold on both. A fact that is true of one machine only (a port in use, a device attached, an installed version) names the machine: "on the laptop".
 
 **Leaving a machine.** Finish first: every change in progress is completed, reviewed, merged and pushed, and the workspace repository is committed and pushed, so the workspace is ready for `/clear` and `/next` on either machine. That is the ordinary checkpoint (see [Normal Flow](#normal-flow)), and it is the rule.
 
@@ -174,7 +176,7 @@ Only when the work cannot be finished in time: commit it on its branch and push 
 
 **The first time on a machine:**
 
-1. Clone the workspace repository to the same path: `git clone <address> ~/development/<name>`.
+1. Clone the workspace repository to the same path: `git clone <address> ~/development/<name>-workspace`.
 2. Add the push guard and its setting, from step 5 above.
 3. Clone each checkout into the folder the instructions' "Layout" names, from the address given there.
 4. Install the tools and dependencies, per the instructions.
