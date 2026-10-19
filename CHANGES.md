@@ -6,7 +6,7 @@ In Claude Code, [`/init-workspace`](skills/init-workspace/SKILL.md) run in an ex
 
 ## 2026-10-19: Ports From a Block in the Registry
 
-Each project now claims a block of ten ports in the registry, in the handbook's own workspace (see [The Handbook's Own Workspace](guidelines/agent-workflow.md#the-handbooks-own-workspace)). Every port it uses goes in that block, including its dev services' ports, instead of the tools' defaults. Not needed when the handbook sits on its own, without the workspace and its `registry/`.
+Each project now claims a block of ten ports in the registry, in the handbook's own workspace (see [The Handbook's Own Workspace](guidelines/agent-workflow.md#the-handbooks-own-workspace)). Every port it uses goes in that block, including its dev services' ports, instead of the tools' defaults. Its throwaway services (a second copy of its servers for an agent's checks, the servers end-to-end tests start) go in its mirror block, 35000 above it: a copy on its main port plus 35000 (`3032` is copied on `38032`). Not needed when the handbook sits on its own, without the workspace and its `registry/`.
 
 **Has it:** the workspace's `CLAUDE.md` names the project's block, and it matches the project's row in the registry's `ports.md`. A project that runs no server or dev service passes too, once its `CLAUDE.md` says so.
 
@@ -15,8 +15,8 @@ Each project now claims a block of ten ports in the registry, in the handbook's 
 1. **Pull the registry:** `git -C ~/development/dev-handbook-workspace pull --ff-only`. Read its `README.md`, then look up the project in `ports.md`: its block, and any of its rows under "Not Yet in Their Block".
 2. **Find every port the project uses:** its configs (`vite.config.*`, `vue.config.js`, `package.json` scripts, `.env.example`, `docker-compose.yml`, `Procfile`), its server code, and the workspace's `CLAUDE.md`, notes and scripts. Include each dev service left on its default port, and anything it connects to on the machine. Report what is found, and ask about anything unclear.
 3. **Reserve a block** if the project has none, per the registry's `README.md`.
-4. **Move each port into the block,** on a branch in the checkout. Update the workspace's notes and scripts that name the old ports as well. A service installed on the machine for everything on it, such as a database run as a system service, keeps its default port: check that it is listed under "Machine Services".
-5. **Write the block into `CLAUDE.md`,** with which port does what. Usually this goes under "Build and Test", where the serve commands are.
+4. **Move each port into the block,** on a branch in the checkout, and each port of a throwaway service into the mirror block. Update the workspace's notes and scripts that name the old ports as well. A service installed on the machine for everything on it, such as a database run as a system service, keeps its default port: check that it is listed under "Machine Services".
+5. **Write the block into `CLAUDE.md`,** with which port does what, and the mirror block's ports if the project uses them. Usually this goes under "Build and Test", where the serve commands are.
 6. **Update the registry:** add the block's row if it is new, and remove the project's rows under "Not Yet in Their Block". Leave the edit uncommitted there for review, like the project's.
 7. **Check** that each server starts on its new port and that the tests pass.
 
