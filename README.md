@@ -16,31 +16,33 @@ It is written for people first. Agents read the same files through [AGENTS.md](A
 
 ## Setup
 
-Clone this repository once, next to your projects:
+Clone this repository once, into a workspace folder next to your projects:
 
 ```bash
-git clone https://github.com/dmccuskey/dev-handbook.git ~/development/dev-handbook
+git clone https://github.com/dmccuskey/dev-handbook.git ~/development/dev-handbook-workspace/dev-handbook
 ```
+
+The workspace folder around it is optional: it holds the handbook's own plan and notes, and a registry of what projects share, such as ports (see [The Handbook's Own Workspace](guidelines/agent-workflow.md#the-handbooks-own-workspace)). Without one, the handbook works the same; only the registry is missing.
 
 Then point each agent harness at `AGENTS.md`, so the content lives in one place.
 
 **Claude Code** reads `CLAUDE.md` and supports imports. Add this line to `~/.claude/CLAUDE.md`:
 
 ```markdown
-@~/development/dev-handbook/AGENTS.md
+@~/development/dev-handbook-workspace/dev-handbook/AGENTS.md
 ```
 
 **Codex** reads `~/.codex/AGENTS.md`:
 
 ```bash
-ln -s ~/development/dev-handbook/AGENTS.md ~/.codex/AGENTS.md
+ln -s ~/development/dev-handbook-workspace/dev-handbook/AGENTS.md ~/.codex/AGENTS.md
 ```
 
 **Claude Code skills:** link each folder in `skills/` into `~/.claude/skills/`, so `git pull` updates them too:
 
 ```bash
 mkdir -p ~/.claude/skills
-for s in ~/development/dev-handbook/skills/*/; do ln -s "${s%/}" ~/.claude/skills/; done
+for s in ~/development/dev-handbook-workspace/dev-handbook/skills/*/; do ln -s "${s%/}" ~/.claude/skills/; done
 ```
 
 **Other harnesses:** use the harness's global instructions file, and either link it to `AGENTS.md` or tell it to read that file.
@@ -54,5 +56,6 @@ Run `git pull` here to update. Every harness sees the change in its next session
 | All projects | this repository |
 | A group of related repositories | an `AGENTS.md` or `CLAUDE.md` in the folder that holds them (Claude Code reads these from parent folders); see [Setting Up a Workspace](guidelines/agent-workflow.md#setting-up-a-workspace) |
 | One project | that project's `docs/development.md`, and its own `AGENTS.md` or `CLAUDE.md` |
+| What projects share, such as ports | the registry in this handbook's workspace (`../registry/`), which records each project's claim (a block of ports); the settings themselves stay in the project |
 
 Keep `AGENTS.md` short. An import loads the whole file into every session, so it lists guidelines to read when needed instead of importing them.

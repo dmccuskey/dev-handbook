@@ -182,6 +182,15 @@ Only when the work cannot be finished in time: commit it on its branch and push 
 4. Install the tools and dependencies, per the instructions.
 5. Start the session there, as on the other machine.
 
+### The Handbook's Own Workspace
+
+This handbook is kept like any project: its checkout sits in a workspace folder, `~/development/dev-handbook-workspace/dev-handbook/`, whose private repository holds the handbook's plan and notes. That workspace also holds `registry/`: claims on what projects share, so that two projects don't take the same one. Ports are claimed in blocks: each project gets ten (`3030–3039`), room to grow, and every port it uses goes in its block, its dev services' too, set in its config instead of left on their defaults.
+
+- **Each project owns its settings.** A port lives in the project's own config and its workspace's instructions; the registry only records the claim, so no session loads every other project's details.
+- **A session reserves from its own workspace:** it pulls the handbook's workspace, picks the next free block, adds its row, and records the block and each port in its own project. Both edits stay uncommitted for review, as any change does. The registry's `README.md` has the steps.
+- **One list for all machines,** since workspaces move between them. A claim true of one machine only names the machine.
+- **Optional:** [AGENTS.md](../AGENTS.md) finds the registry by a path relative to the checkout (`../registry/`), which exists only when the checkout sits in its workspace. A handbook cloned on its own works without it.
+
 ### Design Documents and Roadmaps
 
 A project often starts with a design worked out elsewhere, such as a chat or a shared document: architecture, decisions, a roadmap of phases. It is not the plan. The plan says what is being done now; the design says what the project is and where it is going. Each part has its place in the repository (see the [documentation guidelines](documentation.md)):

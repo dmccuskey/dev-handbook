@@ -23,3 +23,4 @@ This file is an index. Read a guideline when the task calls for it, not up front
 | Setting up a new workspace: its `CLAUDE.md`, `PLAN.md` and `agent/` folder | [guidelines/agent-workflow.md](guidelines/agent-workflow.md#setting-up-a-workspace), [templates/](templates/) |
 | Updating a workspace to the current layout (e.g. one with a `NEXT.md`) | [CHANGES.md](CHANGES.md) |
 | Starting a README, a documentation home, an ADR, a workspace's `CLAUDE.md` and `PLAN.md`, a task file, or a sprint note | [templates/](templates/) |
+| Choosing something projects share, such as a port for a local server or dev service (each project has a block of them) | [../registry/README.md](../registry/README.md), when this handbook sits in its workspace. It is optional: a handbook cloned on its own has no registry, so pick as before and say so |

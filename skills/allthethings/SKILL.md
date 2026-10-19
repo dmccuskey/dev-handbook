@@ -12,7 +12,7 @@ The user may say "do all the things" (or "all the things") in the chat instead o
 
 It ends the session: afterwards nothing exists only in the conversation, and the user can `/clear`.
 
-Follow the project's own rules where they differ from these (its `CLAUDE.md`, `AGENTS.md`, `docs/development.md`, and `~/development/dev-handbook/guidelines/git-workflow.md` and `agent-workflow.md`), especially for the default branch name (`main` or `master`).
+Follow the project's own rules where they differ from these (its `CLAUDE.md`, `AGENTS.md`, `docs/development.md`, and `~/development/dev-handbook-workspace/dev-handbook/guidelines/git-workflow.md` and `agent-workflow.md`), especially for the default branch name (`main` or `master`).
 
 ## Steps
 
