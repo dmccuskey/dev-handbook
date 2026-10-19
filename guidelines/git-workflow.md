@@ -23,7 +23,7 @@ docs/<name>    documentation only
 Workflow:
 
 1. Branch from an up-to-date `main`: `git switch main && git pull && git switch -c feat/<name>`.
-2. Make the change and run the tests, plus any other checks the project's `docs/development.md` requires for this kind of change. Documentation-only changes need no tests.
+2. Make the change and run the tests, plus any other checks the project's `docs/development.md` requires for this kind of change. Documentation-only changes need no tests. The fast checks run again by themselves at the commit, where the project has a [pre-commit hook](#checks-before-a-commit).
 3. Leave the change **uncommitted** for me to review: uncommitted changes are easy to read in the editor's source-control view, committed ones are not. Commit once I've approved it; one commit per branch is normal.
 4. Merge into `main` with `git merge --no-ff`, so the branch stays visible as one merge in the history, push, and delete the branch. Pushing always waits for my go-ahead.
 5. If something runs from `main`, update it.
@@ -41,6 +41,17 @@ I work alone, so process is worth its cost only where it adds something. The rev
 - anything I ask to have as a pull request.
 
 Tests and pre-merge checks apply either way, and so does asking before a push.
+
+## Checks Before a Commit
+
+A project with fast checks (formatting, types, unit tests) runs them in a `pre-commit` hook, so a commit cannot hold a file that fails them. Checks run by hand get skipped: a last edit after the run is enough.
+
+- The hook is committed, in `.githooks/pre-commit`, and switched on per clone with `git config core.hooksPath .githooks`. The project's install does that itself where it can (a `prepare` script in `package.json`, which `bun install` runs), so a fresh clone has it.
+- It runs only the fast checks, a few seconds in all. Slow ones (a build, end-to-end tests) stay with Verify and, where there is one, CI.
+- It skips a commit that touches none of the code it checks, such as one of documentation only.
+- It checks the working tree, not only what is staged; a file left unstaged can still fail it.
+- `git commit --no-verify` skips it, for a commit that must go in as it is (say so in the commit message).
+- A Git client started outside a login shell may lack the tools on its `PATH`: the hook adds the usual install places (`$HOME/.bun/bin`).
 
 ## Commit Messages
 
