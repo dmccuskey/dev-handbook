@@ -6,7 +6,7 @@ argument-hint: "[task slug, to take a task other than Now]"
 
 # Next
 
-Start the session on the workspace's current task, per the Start phase of `~/development/dev-handbook/guidelines/agent-workflow.md` ("Normal Flow"). Read as little as possible: the point is a cheap start after `/clear`.
+Start the session on the workspace's current task, per the Start phase of `~/development/dev-handbook-workspace/dev-handbook/guidelines/agent-workflow.md` ("Normal Flow"). Read as little as possible: the point is a cheap start after `/clear`.
 
 If the user gave an argument, it names the task to take instead of "Now" (a task file's slug, or words from its line in `PLAN.md`).
 

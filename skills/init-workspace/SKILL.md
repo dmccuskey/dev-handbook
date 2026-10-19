@@ -17,7 +17,7 @@ If the user gave an argument, it describes the first task.
 
 Change nothing in this phase: read and run read-only commands only.
 
-1. **Read the handbook:** "Setting Up a Workspace" in `~/development/dev-handbook/guidelines/agent-workflow.md`, and the templates `~/development/dev-handbook/templates/workspace-CLAUDE.md`, `workspace-PLAN.md` and `workspace-task.md`.
+1. **Read the handbook:** "Setting Up a Workspace" in `~/development/dev-handbook-workspace/dev-handbook/guidelines/agent-workflow.md`, and the templates `~/development/dev-handbook-workspace/dev-handbook/templates/workspace-CLAUDE.md`, `workspace-PLAN.md` and `workspace-task.md`.
 2. **Look at the folder:**
    - Is it a git repository (`git rev-parse --show-toplevel`), a folder holding one or more checkouts, or empty? Is it inside another workspace (a `CLAUDE.md`, `PLAN.md` or `agent/` in a parent folder)?
    - For each repository: its remote and whether it is public (`gh repo view --json visibility,description` when it's on GitHub), its default branch, its branches, and whether the working tree is clean.
@@ -49,7 +49,7 @@ Only after the user approves, and as approved:
 
 Bring an existing workspace up to the current layout. Same two phases: **propose, then stop**; change only after the user approves.
 
-1. **Read** `~/development/dev-handbook/CHANGES.md`, then the workspace's `CLAUDE.md`, `PLAN.md` (and `NEXT.md` if there is one), its `.gitignore`, and a listing of its own folders and scripts.
+1. **Read** `~/development/dev-handbook-workspace/dev-handbook/CHANGES.md`, then the workspace's `CLAUDE.md`, `PLAN.md` (and `NEXT.md` if there is one), its `.gitignore`, and a listing of its own folders and scripts.
 2. **Check each change** in `CHANGES.md` with its "Has it" test, newest first, until one passes. The ones above it are pending. If none are pending, say so and stop.
 3. **Propose** the pending updates, oldest first, in the conversation, made concrete for this workspace, following each change's "Update" steps: what moves where; the task files to create (one line per task, and what goes in each); the new `PLAN.md` outline; notes that absorb non-task sections of the old plan; scripts whose paths need checking, and why; the new `.gitignore`; the `CLAUDE.md` lines that change; memory entries that mention the old layout. Ask about anything unclear (e.g. whether a long note belongs to a task). **Stop** for approval.
 4. **Apply** as approved: `git mv` in a workspace repository, so history follows the files. Then run the change's checks: `git status --short`, every relative link resolves, the scripts' paths.

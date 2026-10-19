@@ -4,6 +4,25 @@ Changes to how a workspace is laid out (its files, folders and plan format), new
 
 In Claude Code, [`/init-workspace`](skills/init-workspace/SKILL.md) run in an existing workspace checks each change below and proposes the updates it's missing. By hand: go down the list until a change's check passes; apply the ones above it, oldest first.
 
+## 2026-10-19: The Handbook in Its Own Workspace
+
+The handbook's checkout moves from `~/development/dev-handbook/` into a workspace folder of its own, `~/development/dev-handbook-workspace/dev-handbook/`. The workspace holds the handbook's plan and notes, and `registry/`, the claims on what projects share, such as ports. See [The Handbook's Own Workspace](guidelines/agent-workflow.md#the-handbooks-own-workspace). This is a change to each machine's setup, not to each workspace: do it once per machine.
+
+**Has it:** `~/.claude/CLAUDE.md` imports `@~/development/dev-handbook-workspace/dev-handbook/AGENTS.md`, `ls -L ~/.claude/skills/next/SKILL.md` succeeds, and `readlink ~/.claude/skills/next` names the new path. With Codex, `readlink ~/.codex/AGENTS.md` names it too.
+
+**Update:**
+
+1. **Check the old checkout** for uncommitted changes and unpushed branches (`git status`, `git log --branches --not --remotes`). Finish or push them first.
+2. **Get the workspace:** if it is already synced from another machine, clone it to `~/development/dev-handbook-workspace/` and add its push guard (see [Working on More Than One Machine](guidelines/agent-workflow.md#working-on-more-than-one-machine)). Without one, create the folder.
+3. **Move the checkout** into it: `mv ~/development/dev-handbook ~/development/dev-handbook-workspace/dev-handbook`. Moving the folder a session runs in breaks the session: run it from another folder.
+4. **Fix the paths** that named the old checkout, as in the [Setup](README.md#setup):
+   - `~/.claude/CLAUDE.md`: the import line.
+   - `~/.claude/skills/`: each link into the handbook's `skills/` (`ln -sfn <new path>/skills/<name> ~/.claude/skills/<name>`). Leave real folders alone.
+   - `~/.codex/AGENTS.md`, if it exists: link it again.
+   - Any other harness's global instructions that name the old path.
+5. **Check** the "Has it" test, then start a new session: the handbook's index and the skills load.
+6. **Promote the agent's memory** of the old folder, if sessions ran there, per the [2026-10-15](#2026-10-15-working-rules-promoted-from-the-agents-memory) change: it is keyed by the folder and stays behind.
+
 ## 2026-10-16: The Workspace Folder Named `<name>-workspace`, Kept Flat
 
 A workspace folder is now named `<name>-workspace` (`~/development/<name>-workspace/`), and holds its own files and every checkout side by side: no group folders, no symlinks. The suffix tells it apart from the repositories inside. See step 1 of [Setting Up a Workspace](guidelines/agent-workflow.md#setting-up-a-workspace). Not needed when the workspace is the repository itself. Optional for a workspace that works as it is: renaming one is a move, best done when it moves anyway (to another machine, say).
